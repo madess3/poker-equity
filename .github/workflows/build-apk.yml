@@ -1,0 +1,76 @@
+# Автосборка APK. Копируется в .github/workflows/build-apk.yml каждого приложения.
+# Тег vX.Y.Z → подписанный APK в GitHub Releases.
+# Ручной запуск (Actions → Run workflow) → APK во вкладке Artifacts, без релиза.
+name: Build APK
+
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+
+permissions:
+  contents: write   # нужно для создания релиза
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Code check and tests
+        run: |
+          flutter analyze
+          flutter test
+
+      # Восстанавливаем ключ подписи из GitHub Secrets (в репозитории его нет)
+      - name: Restore signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/upload-keystore.jks
+          cat > android/key.properties <<EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=upload-keystore.jks
+          EOF
+
+      # Версия берётся из тега (v1.2.3 → 1.2.3), номер сборки — счётчик запусков
+      - name: Build APK
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+            flutter build apk --release --build-name="$VERSION" --build-number="${{ github.run_number }}"
+          else
+            flutter build apk --release --build-number="${{ github.run_number }}"
+          fi
+          mv build/app/outputs/flutter-apk/app-release.apk "build/${{ github.event.repository.name }}-${GITHUB_REF_NAME}.apk"
+
+      - name: Upload to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: build/*.apk
+
+      - name: Publish Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/*.apk
+          generate_release_notes: true

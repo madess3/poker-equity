@@ -1,0 +1,146 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get appTitle => 'Poker Equity';
+
+  @override
+  String get holdem => 'Hold\'em';
+
+  @override
+  String get omaha => 'Omaha';
+
+  @override
+  String get omahaHiLo => 'Omaha Hi-Lo';
+
+  @override
+  String get shortDeck => 'Short Deck';
+
+  @override
+  String get pineapple => 'Pineapple';
+
+  @override
+  String get ofc => 'OFC';
+
+  @override
+  String get handStrength => 'Hand Strength';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get toggleTheme => 'Toggle theme';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get languageSystem => 'System';
+
+  @override
+  String get languageRu => 'Русский';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get shortDeckDefault => 'Short Deck default';
+
+  @override
+  String get ruleStraightOverTrips => 'Straight > trips';
+
+  @override
+  String get ruleTripsOverStraight => 'Trips > straight';
+
+  @override
+  String get doubleBoard => 'Double board';
+
+  @override
+  String get cameraV2 => 'Camera (version 2)';
+
+  @override
+  String get board => 'Board';
+
+  @override
+  String boardN(int n) {
+    return 'Board $n';
+  }
+
+  @override
+  String playerN(int n) {
+    return 'Player $n';
+  }
+
+  @override
+  String get cardsLabel => 'Cards:';
+
+  @override
+  String get playersLabel => 'Players:';
+
+  @override
+  String get rulesLabel => 'Rules:';
+
+  @override
+  String get gameLabel => 'Game:';
+
+  @override
+  String get cardsOnHand => 'Cards in hand';
+
+  @override
+  String get playersTitle => 'Players';
+
+  @override
+  String get rulesTitle => 'Rules';
+
+  @override
+  String get gameTitle => 'Game';
+
+  @override
+  String get comingSoon => 'Calculation is coming in the next versions';
+
+  @override
+  String get boxTop => 'Top';
+
+  @override
+  String get boxMiddle => 'Middle';
+
+  @override
+  String get boxBottom => 'Bottom';
+
+  @override
+  String get topPercent => 'Top —';
+
+  @override
+  String version(String v) {
+    return 'Version $v';
+  }
+
+  @override
+  String get offlineNote => 'Works offline. No data is collected.';
+}
