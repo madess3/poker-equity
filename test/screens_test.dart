@@ -1,5 +1,3 @@
-import 'dart:ui' show Size;
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -31,23 +29,29 @@ Future<void> tapCards(WidgetTester tester, List<String> codes) async {
   }
 }
 
-Future<void> settle(WidgetTester tester, [int seconds = 4]) async {
-  await tester.runAsync(() => Future.delayed(Duration(seconds: seconds)));
-  await tester.pump();
+/// Ждёт, пока появится [finder] (расчёт идёт в отдельном потоке), до 30 с.
+Future<void> waitFor(WidgetTester tester, Finder finder) async {
+  for (var i = 0; i < 100; i++) {
+    if (finder.evaluate().isNotEmpty) return;
+    await tester.runAsync(
+      () => Future.delayed(const Duration(milliseconds: 300)),
+    );
+    await tester.pump();
+  }
 }
 
 void main() {
   testWidgets('Омаха: 4 карты, расчёт', (tester) async {
     await openApp(tester, '/omaha');
     await tapCards(tester, ['As', 'Ad', 'Ks', 'Kd', 'Qh', 'Jh', 'Th', '9h']);
-    await settle(tester);
+    await waitFor(tester, find.textContaining('%'));
     expect(find.textContaining('%'), findsWidgets);
   });
 
   testWidgets('Омаха хай-лоу: строка хай/лоу', (tester) async {
     await openApp(tester, '/omaha-hi-lo');
     await tapCards(tester, ['As', '2d', '3c', 'Kd', 'Qh', 'Jh', 'Th', '9h']);
-    await settle(tester);
+    await waitFor(tester, find.textContaining('Лоу возможен'));
     expect(find.textContaining('хай'), findsWidgets);
     expect(find.textContaining('Лоу возможен'), findsOneWidget);
   });
@@ -56,7 +60,7 @@ void main() {
     await openApp(tester, '/short-deck');
     expect(find.bySemanticsLabel('5s'), findsNothing);
     await tapCards(tester, ['As', 'Ah', 'Ks', 'Kh']);
-    await settle(tester);
+    await waitFor(tester, find.textContaining('%'));
     expect(find.textContaining('%'), findsWidgets);
   });
 
@@ -73,15 +77,14 @@ void main() {
       '8c',
       '3d',
     ]);
-    for (var k = 0; k < 8; k++) {
-      await settle(tester, 1); // расчёт идёт пакетами
-    }
+    await waitFor(tester, find.textContaining('%'));
     if (find.text('Готово').evaluate().isNotEmpty) {
       await tester.tap(find.text('Готово'));
       await tester.pump();
     }
     await tester.drag(find.byType(ListView).first, const Offset(0, -600));
     await tester.pump();
+    await waitFor(tester, find.text('Сбросить ', skipOffstage: false));
     expect(find.text('Сбросить ', skipOffstage: false), findsWidgets);
   });
 
@@ -96,7 +99,7 @@ void main() {
   testWidgets('Холдем: анализ открывается', (tester) async {
     await openApp(tester, '/holdem');
     await tapCards(tester, ['Ah', 'Kh', 'Qs', 'Qd', '7h', '2h', '9c']);
-    await settle(tester);
+    await waitFor(tester, find.textContaining('побед'));
     await tester.tap(find.text('Готово'));
     await tester.pump();
     await tester.ensureVisible(find.text('Анализ'));
@@ -114,7 +117,7 @@ void main() {
     expect(find.textContaining('комбинаций'), findsOneWidget);
     await tester.tap(find.text('Готово'));
     await tester.pumpAndSettle();
-    await settle(tester);
+    await waitFor(tester, find.textContaining('Диапазон 1'));
     expect(find.textContaining('Диапазон 1'), findsOneWidget);
   });
 }

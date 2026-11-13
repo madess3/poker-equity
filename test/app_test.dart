@@ -45,8 +45,16 @@ void main() {
       await tester.tap(find.bySemanticsLabel(code).first);
       await tester.pump();
     }
-    await tester.runAsync(() => Future.delayed(const Duration(seconds: 3)));
-    await tester.pump();
+    for (
+      var i = 0;
+      i < 100 && find.textContaining('%').evaluate().isEmpty;
+      i++
+    ) {
+      await tester.runAsync(
+        () => Future.delayed(const Duration(milliseconds: 300)),
+      );
+      await tester.pump();
+    }
     expect(find.textContaining('%'), findsWidgets);
   });
 }
