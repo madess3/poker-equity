@@ -88,33 +88,7 @@ class CardKeyboard extends StatelessWidget {
               onTap: dim ? null : () => onPick(card),
               child: SizedBox(
                 height: 46,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        rankLabel(card),
-                        style: TextStyle(
-                          fontSize: 19,
-                          height: 1,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -1,
-                          color: suitColor(card),
-                        ),
-                      ),
-                      Text(
-                        suitSymbols[cardSuit(card)],
-                        style: TextStyle(
-                          fontSize: 17,
-                          height: 1,
-                          color: suitColor(card),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: Center(child: CardGlyph(card: card, height: 44)),
               ),
             ),
           ),

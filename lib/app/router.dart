@@ -6,6 +6,7 @@ import '../features/games/game.dart';
 import '../features/games/game_screen.dart';
 import '../features/settings/about_screen.dart';
 import '../features/settings/settings_screen.dart';
+import '../features/strength/hand_strength_screen.dart';
 
 /// Переходы без анимации — как переключение разделов в меню.
 Page<void> _page(GoRouterState s, Widget child) =>
@@ -17,10 +18,11 @@ final appRouter = GoRouter(
     for (final g in Game.values)
       GoRoute(
         path: g.path,
-        pageBuilder: (_, s) => _page(
-          s,
-          g == Game.holdem ? EquityScreen(game: g) : GameScreen(game: g),
-        ),
+        pageBuilder: (_, s) => _page(s, switch (g) {
+          Game.ofc => GameScreen(game: g),
+          Game.handStrength => const HandStrengthScreen(),
+          _ => EquityScreen(game: g),
+        }),
       ),
     GoRoute(
       path: '/settings',

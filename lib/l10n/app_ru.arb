@@ -91,5 +91,118 @@
         "type": "String"
       }
     }
-  }
+  },
+  "deadCards": "Мёртвые карты",
+  "deadShort": "Мёртвые",
+  "analysis": "Анализ",
+  "range": "Диапазон",
+  "rangeShort": "Диапазон {p}",
+  "@rangeShort": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "mixMuck": "Замешать срезку и мак",
+  "muckMixed": "Срезка и мак замешаны",
+  "lowPossible": "Лоу возможен в {p} раздач",
+  "@lowPossible": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "hiLoLine": "хай {h} · лоу {lo} · скуп {s}",
+  "@hiLoLine": {
+    "placeholders": {
+      "h": {
+        "type": "String"
+      },
+      "lo": {
+        "type": "String"
+      },
+      "s": {
+        "type": "String"
+      }
+    }
+  },
+  "discard": "Сбросить",
+  "bestOption": "лучший",
+  "topN": "Топ {p}",
+  "@topN": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "combosCount": "{n} комбинаций",
+  "@combosCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "clearRange": "Очистить",
+  "rankOf": "#{k} из {n}",
+  "@rankOf": {
+    "placeholders": {
+      "k": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "typeLabel": "Тип:",
+  "typeTitle": "Тип игры",
+  "typeHi": "Хай",
+  "typeHiLo": "Хай-лоу",
+  "playerLabel": "Игрок:",
+  "outsTab": "Ауты",
+  "combosTab": "Комбинации",
+  "outsTitle": "Ауты на следующую улицу",
+  "outsUnavailable": "Ауты считаются, когда известны карты всех игроков и открыт флоп или тёрн.",
+  "outsAhead": "Игрок уже впереди — аутов нет.",
+  "outsChanceFlop": "На тёрне {n} · к риверу {r}",
+  "@outsChanceFlop": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "r": {
+        "type": "String"
+      }
+    }
+  },
+  "outsChanceTurn": "На ривере {n}",
+  "@outsChanceTurn": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "pot": "Банк",
+  "betToCall": "Ставка соперника",
+  "needEquity": "Нужно эквити",
+  "yourEquity": "Ваше эквити",
+  "potOdds": "Пот-оддсы",
+  "evCall": "EV колла",
+  "callGood": "Колл выгоден",
+  "callBad": "Колл невыгоден",
+  "toRiver": "Шансы к риверу",
+  "catHigh": "Старшая карта",
+  "catPair": "Пара",
+  "catTwoPair": "Две пары",
+  "catTrips": "Сет",
+  "catStraight": "Стрит",
+  "catFlush": "Флеш",
+  "catFullHouse": "Фулл-хаус",
+  "catQuads": "Каре",
+  "catStraightFlush": "Стрит-флеш"
 }

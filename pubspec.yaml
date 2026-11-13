@@ -1,7 +1,7 @@
 name: poker_equity
 description: "Poker Equity — покерный калькулятор эквити."
 publish_to: 'none'
-version: 0.2.0+1
+version: 0.3.0+1
 
 environment:
   sdk: ^3.14.0

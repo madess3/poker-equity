@@ -385,6 +385,276 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Б1 {b1} · Б2 {b2} · скуп {s}'**
   String boardsLine(String b1, String b2, String s);
+
+  /// No description provided for @deadCards.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мёртвые карты'**
+  String get deadCards;
+
+  /// No description provided for @deadShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мёртвые'**
+  String get deadShort;
+
+  /// No description provided for @analysis.
+  ///
+  /// In ru, this message translates to:
+  /// **'Анализ'**
+  String get analysis;
+
+  /// No description provided for @range.
+  ///
+  /// In ru, this message translates to:
+  /// **'Диапазон'**
+  String get range;
+
+  /// No description provided for @rangeShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Диапазон {p}'**
+  String rangeShort(String p);
+
+  /// No description provided for @mixMuck.
+  ///
+  /// In ru, this message translates to:
+  /// **'Замешать срезку и мак'**
+  String get mixMuck;
+
+  /// No description provided for @muckMixed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срезка и мак замешаны'**
+  String get muckMixed;
+
+  /// No description provided for @lowPossible.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лоу возможен в {p} раздач'**
+  String lowPossible(String p);
+
+  /// No description provided for @hiLoLine.
+  ///
+  /// In ru, this message translates to:
+  /// **'хай {h} · лоу {lo} · скуп {s}'**
+  String hiLoLine(String h, String lo, String s);
+
+  /// No description provided for @discard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сбросить'**
+  String get discard;
+
+  /// No description provided for @bestOption.
+  ///
+  /// In ru, this message translates to:
+  /// **'лучший'**
+  String get bestOption;
+
+  /// No description provided for @topN.
+  ///
+  /// In ru, this message translates to:
+  /// **'Топ {p}'**
+  String topN(String p);
+
+  /// No description provided for @combosCount.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n} комбинаций'**
+  String combosCount(int n);
+
+  /// No description provided for @clearRange.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get clearRange;
+
+  /// No description provided for @rankOf.
+  ///
+  /// In ru, this message translates to:
+  /// **'#{k} из {n}'**
+  String rankOf(int k, int n);
+
+  /// No description provided for @typeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тип:'**
+  String get typeLabel;
+
+  /// No description provided for @typeTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тип игры'**
+  String get typeTitle;
+
+  /// No description provided for @typeHi.
+  ///
+  /// In ru, this message translates to:
+  /// **'Хай'**
+  String get typeHi;
+
+  /// No description provided for @typeHiLo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Хай-лоу'**
+  String get typeHiLo;
+
+  /// No description provided for @playerLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Игрок:'**
+  String get playerLabel;
+
+  /// No description provided for @outsTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ауты'**
+  String get outsTab;
+
+  /// No description provided for @combosTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Комбинации'**
+  String get combosTab;
+
+  /// No description provided for @outsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ауты на следующую улицу'**
+  String get outsTitle;
+
+  /// No description provided for @outsUnavailable.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ауты считаются, когда известны карты всех игроков и открыт флоп или тёрн.'**
+  String get outsUnavailable;
+
+  /// No description provided for @outsAhead.
+  ///
+  /// In ru, this message translates to:
+  /// **'Игрок уже впереди — аутов нет.'**
+  String get outsAhead;
+
+  /// No description provided for @outsChanceFlop.
+  ///
+  /// In ru, this message translates to:
+  /// **'На тёрне {n} · к риверу {r}'**
+  String outsChanceFlop(String n, String r);
+
+  /// No description provided for @outsChanceTurn.
+  ///
+  /// In ru, this message translates to:
+  /// **'На ривере {n}'**
+  String outsChanceTurn(String n);
+
+  /// No description provided for @pot.
+  ///
+  /// In ru, this message translates to:
+  /// **'Банк'**
+  String get pot;
+
+  /// No description provided for @betToCall.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ставка соперника'**
+  String get betToCall;
+
+  /// No description provided for @needEquity.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нужно эквити'**
+  String get needEquity;
+
+  /// No description provided for @yourEquity.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваше эквити'**
+  String get yourEquity;
+
+  /// No description provided for @potOdds.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пот-оддсы'**
+  String get potOdds;
+
+  /// No description provided for @evCall.
+  ///
+  /// In ru, this message translates to:
+  /// **'EV колла'**
+  String get evCall;
+
+  /// No description provided for @callGood.
+  ///
+  /// In ru, this message translates to:
+  /// **'Колл выгоден'**
+  String get callGood;
+
+  /// No description provided for @callBad.
+  ///
+  /// In ru, this message translates to:
+  /// **'Колл невыгоден'**
+  String get callBad;
+
+  /// No description provided for @toRiver.
+  ///
+  /// In ru, this message translates to:
+  /// **'Шансы к риверу'**
+  String get toRiver;
+
+  /// No description provided for @catHigh.
+  ///
+  /// In ru, this message translates to:
+  /// **'Старшая карта'**
+  String get catHigh;
+
+  /// No description provided for @catPair.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пара'**
+  String get catPair;
+
+  /// No description provided for @catTwoPair.
+  ///
+  /// In ru, this message translates to:
+  /// **'Две пары'**
+  String get catTwoPair;
+
+  /// No description provided for @catTrips.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сет'**
+  String get catTrips;
+
+  /// No description provided for @catStraight.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стрит'**
+  String get catStraight;
+
+  /// No description provided for @catFlush.
+  ///
+  /// In ru, this message translates to:
+  /// **'Флеш'**
+  String get catFlush;
+
+  /// No description provided for @catFullHouse.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фулл-хаус'**
+  String get catFullHouse;
+
+  /// No description provided for @catQuads.
+  ///
+  /// In ru, this message translates to:
+  /// **'Каре'**
+  String get catQuads;
+
+  /// No description provided for @catStraightFlush.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стрит-флеш'**
+  String get catStraightFlush;
 }
 
 class _AppLocalizationsDelegate

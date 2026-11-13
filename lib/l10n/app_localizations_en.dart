@@ -162,4 +162,156 @@ class AppLocalizationsEn extends AppLocalizations {
   String boardsLine(String b1, String b2, String s) {
     return 'B1 $b1 · B2 $b2 · scoop $s';
   }
+
+  @override
+  String get deadCards => 'Dead cards';
+
+  @override
+  String get deadShort => 'Dead';
+
+  @override
+  String get analysis => 'Analysis';
+
+  @override
+  String get range => 'Range';
+
+  @override
+  String rangeShort(String p) {
+    return 'Range $p';
+  }
+
+  @override
+  String get mixMuck => 'Mix burns and muck';
+
+  @override
+  String get muckMixed => 'Burns and muck mixed';
+
+  @override
+  String lowPossible(String p) {
+    return 'Low possible in $p of deals';
+  }
+
+  @override
+  String hiLoLine(String h, String lo, String s) {
+    return 'hi $h · lo $lo · scoop $s';
+  }
+
+  @override
+  String get discard => 'Discard';
+
+  @override
+  String get bestOption => 'best';
+
+  @override
+  String topN(String p) {
+    return 'Top $p';
+  }
+
+  @override
+  String combosCount(int n) {
+    return '$n combos';
+  }
+
+  @override
+  String get clearRange => 'Clear';
+
+  @override
+  String rankOf(int k, int n) {
+    return '#$k of $n';
+  }
+
+  @override
+  String get typeLabel => 'Type:';
+
+  @override
+  String get typeTitle => 'Game type';
+
+  @override
+  String get typeHi => 'Hi';
+
+  @override
+  String get typeHiLo => 'Hi-Lo';
+
+  @override
+  String get playerLabel => 'Player:';
+
+  @override
+  String get outsTab => 'Outs';
+
+  @override
+  String get combosTab => 'Hands';
+
+  @override
+  String get outsTitle => 'Outs to the next street';
+
+  @override
+  String get outsUnavailable =>
+      'Outs are shown when all hands are known and the flop or turn is dealt.';
+
+  @override
+  String get outsAhead => 'The player is already ahead — no outs.';
+
+  @override
+  String outsChanceFlop(String n, String r) {
+    return 'Turn $n · by river $r';
+  }
+
+  @override
+  String outsChanceTurn(String n) {
+    return 'River $n';
+  }
+
+  @override
+  String get pot => 'Pot';
+
+  @override
+  String get betToCall => 'Bet to call';
+
+  @override
+  String get needEquity => 'Equity needed';
+
+  @override
+  String get yourEquity => 'Your equity';
+
+  @override
+  String get potOdds => 'Pot odds';
+
+  @override
+  String get evCall => 'Call EV';
+
+  @override
+  String get callGood => 'Call is profitable';
+
+  @override
+  String get callBad => 'Call is unprofitable';
+
+  @override
+  String get toRiver => 'Chances by the river';
+
+  @override
+  String get catHigh => 'High card';
+
+  @override
+  String get catPair => 'Pair';
+
+  @override
+  String get catTwoPair => 'Two pair';
+
+  @override
+  String get catTrips => 'Trips';
+
+  @override
+  String get catStraight => 'Straight';
+
+  @override
+  String get catFlush => 'Flush';
+
+  @override
+  String get catFullHouse => 'Full house';
+
+  @override
+  String get catQuads => 'Quads';
+
+  @override
+  String get catStraightFlush => 'Straight flush';
 }

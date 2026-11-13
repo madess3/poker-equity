@@ -162,4 +162,156 @@ class AppLocalizationsRu extends AppLocalizations {
   String boardsLine(String b1, String b2, String s) {
     return 'Б1 $b1 · Б2 $b2 · скуп $s';
   }
+
+  @override
+  String get deadCards => 'Мёртвые карты';
+
+  @override
+  String get deadShort => 'Мёртвые';
+
+  @override
+  String get analysis => 'Анализ';
+
+  @override
+  String get range => 'Диапазон';
+
+  @override
+  String rangeShort(String p) {
+    return 'Диапазон $p';
+  }
+
+  @override
+  String get mixMuck => 'Замешать срезку и мак';
+
+  @override
+  String get muckMixed => 'Срезка и мак замешаны';
+
+  @override
+  String lowPossible(String p) {
+    return 'Лоу возможен в $p раздач';
+  }
+
+  @override
+  String hiLoLine(String h, String lo, String s) {
+    return 'хай $h · лоу $lo · скуп $s';
+  }
+
+  @override
+  String get discard => 'Сбросить';
+
+  @override
+  String get bestOption => 'лучший';
+
+  @override
+  String topN(String p) {
+    return 'Топ $p';
+  }
+
+  @override
+  String combosCount(int n) {
+    return '$n комбинаций';
+  }
+
+  @override
+  String get clearRange => 'Очистить';
+
+  @override
+  String rankOf(int k, int n) {
+    return '#$k из $n';
+  }
+
+  @override
+  String get typeLabel => 'Тип:';
+
+  @override
+  String get typeTitle => 'Тип игры';
+
+  @override
+  String get typeHi => 'Хай';
+
+  @override
+  String get typeHiLo => 'Хай-лоу';
+
+  @override
+  String get playerLabel => 'Игрок:';
+
+  @override
+  String get outsTab => 'Ауты';
+
+  @override
+  String get combosTab => 'Комбинации';
+
+  @override
+  String get outsTitle => 'Ауты на следующую улицу';
+
+  @override
+  String get outsUnavailable =>
+      'Ауты считаются, когда известны карты всех игроков и открыт флоп или тёрн.';
+
+  @override
+  String get outsAhead => 'Игрок уже впереди — аутов нет.';
+
+  @override
+  String outsChanceFlop(String n, String r) {
+    return 'На тёрне $n · к риверу $r';
+  }
+
+  @override
+  String outsChanceTurn(String n) {
+    return 'На ривере $n';
+  }
+
+  @override
+  String get pot => 'Банк';
+
+  @override
+  String get betToCall => 'Ставка соперника';
+
+  @override
+  String get needEquity => 'Нужно эквити';
+
+  @override
+  String get yourEquity => 'Ваше эквити';
+
+  @override
+  String get potOdds => 'Пот-оддсы';
+
+  @override
+  String get evCall => 'EV колла';
+
+  @override
+  String get callGood => 'Колл выгоден';
+
+  @override
+  String get callBad => 'Колл невыгоден';
+
+  @override
+  String get toRiver => 'Шансы к риверу';
+
+  @override
+  String get catHigh => 'Старшая карта';
+
+  @override
+  String get catPair => 'Пара';
+
+  @override
+  String get catTwoPair => 'Две пары';
+
+  @override
+  String get catTrips => 'Сет';
+
+  @override
+  String get catStraight => 'Стрит';
+
+  @override
+  String get catFlush => 'Флеш';
+
+  @override
+  String get catFullHouse => 'Фулл-хаус';
+
+  @override
+  String get catQuads => 'Каре';
+
+  @override
+  String get catStraightFlush => 'Стрит-флеш';
 }
