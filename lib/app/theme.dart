@@ -131,7 +131,7 @@ ThemeData buildTheme(Brightness b) {
       foregroundColor: text,
       elevation: 0,
       scrolledUnderElevation: 0,
-      titleTextStyle: textTheme.titleLarge,
+      titleTextStyle: textTheme.titleLarge?.copyWith(fontFamily: 'GolosText'),
     ),
     drawerTheme: DrawerThemeData(backgroundColor: surface),
     cardTheme: CardThemeData(
