@@ -355,6 +355,36 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Работает без интернета. Данные не собираются.'**
   String get offlineNote;
+
+  /// No description provided for @done.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готово'**
+  String get done;
+
+  /// No description provided for @clearCard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Убрать карту'**
+  String get clearCard;
+
+  /// No description provided for @clearAll.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить всё'**
+  String get clearAll;
+
+  /// No description provided for @winTie.
+  ///
+  /// In ru, this message translates to:
+  /// **'побед {w} · ничьих {t}'**
+  String winTie(String w, String t);
+
+  /// No description provided for @boardsLine.
+  ///
+  /// In ru, this message translates to:
+  /// **'Б1 {b1} · Б2 {b2} · скуп {s}'**
+  String boardsLine(String b1, String b2, String s);
 }
 
 class _AppLocalizationsDelegate

@@ -27,9 +27,21 @@
   "cameraV2": "Камера (в версии 2)",
   "board": "Борд",
   "boardN": "Борд {n}",
-  "@boardN": {"placeholders": {"n": {"type": "int"}}},
+  "@boardN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "playerN": "Игрок {n}",
-  "@playerN": {"placeholders": {"n": {"type": "int"}}},
+  "@playerN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "cardsLabel": "Карт:",
   "playersLabel": "Игроков:",
   "rulesLabel": "Правила:",
@@ -44,6 +56,40 @@
   "boxBottom": "Низ",
   "topPercent": "Топ —",
   "version": "Версия {v}",
-  "@version": {"placeholders": {"v": {"type": "String"}}},
-  "offlineNote": "Работает без интернета. Данные не собираются."
+  "@version": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineNote": "Работает без интернета. Данные не собираются.",
+  "done": "Готово",
+  "clearCard": "Убрать карту",
+  "clearAll": "Очистить всё",
+  "winTie": "побед {w} · ничьих {t}",
+  "@winTie": {
+    "placeholders": {
+      "w": {
+        "type": "String"
+      },
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "boardsLine": "Б1 {b1} · Б2 {b2} · скуп {s}",
+  "@boardsLine": {
+    "placeholders": {
+      "b1": {
+        "type": "String"
+      },
+      "b2": {
+        "type": "String"
+      },
+      "s": {
+        "type": "String"
+      }
+    }
+  }
 }

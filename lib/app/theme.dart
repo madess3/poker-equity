@@ -86,11 +86,31 @@ ThemeData buildTheme(Brightness b) {
     bodySmall: TextStyle(fontSize: 13, color: ext.muted),
     bodyMedium: TextStyle(fontSize: 15, color: text),
     bodyLarge: TextStyle(fontSize: 15, color: text),
-    labelLarge: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: text),
-    titleMedium: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: text),
-    titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: text),
-    headlineSmall: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: text),
-    headlineMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: accent),
+    labelLarge: TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.w600,
+      color: text,
+    ),
+    titleMedium: TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.w600,
+      color: text,
+    ),
+    titleLarge: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      color: text,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.w700,
+      color: text,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.w700,
+      color: accent,
+    ),
   );
 
   return ThemeData(
@@ -98,12 +118,13 @@ ThemeData buildTheme(Brightness b) {
     brightness: b,
     fontFamily: 'GolosText',
     scaffoldBackgroundColor: bg,
-    colorScheme: ColorScheme.fromSeed(seedColor: accent, brightness: b).copyWith(
-      primary: accent,
-      onPrimary: onAccent,
-      surface: surface,
-      onSurface: text,
-    ),
+    colorScheme: ColorScheme.fromSeed(seedColor: accent, brightness: b)
+        .copyWith(
+          primary: accent,
+          onPrimary: onAccent,
+          surface: surface,
+          onSurface: text,
+        ),
     textTheme: textTheme,
     appBarTheme: AppBarTheme(
       backgroundColor: bg,

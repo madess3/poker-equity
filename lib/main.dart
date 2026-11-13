@@ -10,10 +10,12 @@ import 'l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  runApp(ProviderScope(
-    overrides: [prefsProvider.overrideWithValue(prefs)],
-    child: const PokerEquityApp(),
-  ));
+  runApp(
+    ProviderScope(
+      overrides: [prefsProvider.overrideWithValue(prefs)],
+      child: const PokerEquityApp(),
+    ),
+  );
 }
 
 class PokerEquityApp extends ConsumerWidget {

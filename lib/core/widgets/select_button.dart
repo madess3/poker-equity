@@ -49,14 +49,19 @@ class SelectButton<T> extends StatelessWidget {
           height: 48,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(children: [
-              Text('$label ', style: t.bodyMedium?.copyWith(color: c.muted)),
-              Expanded(
-                child: Text(optionLabel(value),
-                    style: t.titleMedium, overflow: TextOverflow.ellipsis),
-              ),
-              const Icon(Icons.expand_more, size: 20),
-            ]),
+            child: Row(
+              children: [
+                Text('$label ', style: t.bodyMedium?.copyWith(color: c.muted)),
+                Expanded(
+                  child: Text(
+                    optionLabel(value),
+                    style: t.titleMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const Icon(Icons.expand_more, size: 20),
+              ],
+            ),
           ),
         ),
       ),
@@ -81,7 +86,8 @@ Future<T?> showSelectSheet<T>(
       return SafeArea(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(ctx).height * 0.7),
+            maxHeight: MediaQuery.sizeOf(ctx).height * 0.7,
+          ),
           child: ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
@@ -94,15 +100,20 @@ Future<T?> showSelectSheet<T>(
                 ListTile(
                   minTileHeight: 48,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   selected: o == value,
                   selectedTileColor: c.accentSoft,
                   selectedColor: c.accentText,
-                  title: Text(optionLabel(o),
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight:
-                              o == value ? FontWeight.w600 : FontWeight.w400)),
+                  title: Text(
+                    optionLabel(o),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: o == value
+                          ? FontWeight.w600
+                          : FontWeight.w400,
+                    ),
+                  ),
                   onTap: () => Navigator.pop(ctx, o),
                 ),
             ],

@@ -143,4 +143,23 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get offlineNote => 'Работает без интернета. Данные не собираются.';
+
+  @override
+  String get done => 'Готово';
+
+  @override
+  String get clearCard => 'Убрать карту';
+
+  @override
+  String get clearAll => 'Очистить всё';
+
+  @override
+  String winTie(String w, String t) {
+    return 'побед $w · ничьих $t';
+  }
+
+  @override
+  String boardsLine(String b1, String b2, String s) {
+    return 'Б1 $b1 · Б2 $b2 · скуп $s';
+  }
 }

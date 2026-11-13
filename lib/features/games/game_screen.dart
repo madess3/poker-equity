@@ -20,7 +20,9 @@ class GameScreen extends ConsumerStatefulWidget {
 }
 
 class _GameScreenState extends ConsumerState<GameScreen> {
-  late int cards = widget.game.handCards.isEmpty ? 0 : widget.game.handCards.first;
+  late int cards = widget.game.handCards.isEmpty
+      ? 0
+      : widget.game.handCards.first;
   late int players = widget.game == Game.ofc ? 3 : 2;
   bool doubleBoard = false;
   ShortDeckRule? rule;
@@ -75,7 +77,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           sheetTitle: l.playersTitle,
           value: players,
           options: [
-            for (var i = g.minPlayers; i <= g.maxPlayersFor(cards); i++) i
+            for (var i = g.minPlayers; i <= g.maxPlayersFor(cards); i++) i,
           ],
           optionLabel: (v) => '$v',
           onChanged: (v) => setState(() => players = v),
@@ -94,10 +96,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               showCheckmark: false,
               selectedColor: Theme.of(context).colorScheme.primary,
               labelStyle: TextStyle(
-                  fontSize: 13,
-                  color: doubleBoard
-                      ? Theme.of(context).colorScheme.onPrimary
-                      : null),
+                fontSize: 13,
+                color: doubleBoard
+                    ? Theme.of(context).colorScheme.onPrimary
+                    : null,
+              ),
               onSelected: (v) => setState(() => doubleBoard = v),
             ),
           if (g != Game.handStrength)
@@ -112,12 +115,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
         children: [
-          Row(children: [
-            for (final (i, s) in selectors.indexed) ...[
-              if (i > 0) const SizedBox(width: 8),
-              Expanded(child: s),
+          Row(
+            children: [
+              for (final (i, s) in selectors.indexed) ...[
+                if (i > 0) const SizedBox(width: 8),
+                Expanded(child: s),
+              ],
             ],
-          ]),
+          ),
           const SizedBox(height: 16),
           if (g == Game.handStrength)
             ..._strength(context, l, c)
@@ -126,9 +131,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           else
             ..._poker(context, l, c),
           const SizedBox(height: 16),
-          Text(l.comingSoon,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall),
+          Text(
+            l.comingSoon,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
         ],
       ),
     );
@@ -138,15 +145,17 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final t = Theme.of(context).textTheme;
     final small = cards >= 5;
     Widget board(String label) => Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Row(children: [
-            SizedBox(width: 56, child: Text(label, style: t.bodySmall)),
-            for (var i = 0; i < 5; i++) ...[
-              if (i > 0) const SizedBox(width: 6),
-              const CardSlot(),
-            ],
-          ]),
-        );
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          SizedBox(width: 56, child: Text(label, style: t.bodySmall)),
+          for (var i = 0; i < 5; i++) ...[
+            if (i > 0) const SizedBox(width: 6),
+            const CardSlot(),
+          ],
+        ],
+      ),
+    );
     return [
       board(doubleBoard ? l.boardN(1) : l.board),
       if (doubleBoard) board(l.boardN(2)),
@@ -157,17 +166,28 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(children: [
-                  Expanded(child: Text(l.playerN(p), style: t.bodySmall)),
-                  Text('—', style: t.headlineSmall),
-                ]),
-                const SizedBox(height: 8),
-                Wrap(spacing: 5, children: [
-                  for (var i = 0; i < cards; i++)
-                    CardSlot(width: small ? 42 : 50, height: small ? 58 : 68),
-                ]),
-              ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: Text(l.playerN(p), style: t.bodySmall)),
+                      Text('—', style: t.headlineSmall),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 5,
+                    children: [
+                      for (var i = 0; i < cards; i++)
+                        CardSlot(
+                          width: small ? 42 : 50,
+                          height: small ? 58 : 68,
+                        ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -183,54 +203,71 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                Text(l.playerN(p), style: t.titleMedium),
-                const SizedBox(height: 8),
-                for (final box in [l.boxTop, l.boxMiddle, l.boxBottom])
-                  Container(
-                    height: 44,
-                    margin: const EdgeInsets.only(bottom: 6),
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(l.playerN(p), style: t.titleMedium),
+                  const SizedBox(height: 8),
+                  for (final box in [l.boxTop, l.boxMiddle, l.boxBottom])
+                    Container(
+                      height: 44,
+                      margin: const EdgeInsets.only(bottom: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
                         color: c.surface2,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Text(box, style: t.bodySmall),
-                  ),
-              ]),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(box, style: t.bodySmall),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
     ];
   }
 
-  List<Widget> _strength(BuildContext context, AppLocalizations l, AppColors c) {
+  List<Widget> _strength(
+    BuildContext context,
+    AppLocalizations l,
+    AppColors c,
+  ) {
     final t = Theme.of(context).textTheme;
     final n = strengthGame == Game.holdem || strengthGame == Game.shortDeck
         ? 2
         : strengthGame == Game.pineapple
-            ? 3
-            : 4;
+        ? 3
+        : 4;
     return [
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        for (var i = 0; i < n; i++) ...[
-          if (i > 0) const SizedBox(width: 8),
-          CardSlot(width: n <= 3 ? 72 : 64, height: n <= 3 ? 100 : 88),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          for (var i = 0; i < n; i++) ...[
+            if (i > 0) const SizedBox(width: 8),
+            CardSlot(width: n <= 3 ? 72 : 64, height: n <= 3 ? 100 : 88),
+          ],
         ],
-      ]),
+      ),
       const SizedBox(height: 24),
       Card(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Text(l.topPercent, style: t.headlineMedium),
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
-                  value: 0, minHeight: 8, backgroundColor: c.surface2),
-            ),
-          ]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(l.topPercent, style: t.headlineMedium),
+              const SizedBox(height: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: 0,
+                  minHeight: 8,
+                  backgroundColor: c.surface2,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ];

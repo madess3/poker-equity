@@ -1,3 +1,5 @@
+import 'dart:ui' show Size;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:poker_equity/app/settings.dart';
@@ -15,11 +17,36 @@ void main() {
   testWidgets('приложение запускается на вкладке Холдем', (tester) async {
     SharedPreferences.setMockInitialValues({'locale': 'ru'});
     final prefs = await SharedPreferences.getInstance();
-    await tester.pumpWidget(ProviderScope(
-      overrides: [prefsProvider.overrideWithValue(prefs)],
-      child: const PokerEquityApp(),
-    ));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [prefsProvider.overrideWithValue(prefs)],
+        child: const PokerEquityApp(),
+      ),
+    );
     await tester.pumpAndSettle();
     expect(find.text('Холдем'), findsWidgets);
+  });
+
+  testWidgets('ввод карт с клавиатуры и расчёт эквити', (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.6;
+    addTearDown(tester.view.reset);
+    SharedPreferences.setMockInitialValues({'locale': 'ru'});
+    final prefs = await SharedPreferences.getInstance();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [prefsProvider.overrideWithValue(prefs)],
+        child: const PokerEquityApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    // Клавиатура открыта сразу: вводим AA против KK.
+    for (final code in ['As', 'Ah', 'Ks', 'Kh']) {
+      await tester.tap(find.bySemanticsLabel(code).first);
+      await tester.pump();
+    }
+    await tester.runAsync(() => Future.delayed(const Duration(seconds: 3)));
+    await tester.pump();
+    expect(find.textContaining('%'), findsWidgets);
   });
 }

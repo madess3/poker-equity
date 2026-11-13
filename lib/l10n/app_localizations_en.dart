@@ -143,4 +143,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get offlineNote => 'Works offline. No data is collected.';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get clearCard => 'Remove card';
+
+  @override
+  String get clearAll => 'Clear all';
+
+  @override
+  String winTie(String w, String t) {
+    return 'win $w · tie $t';
+  }
+
+  @override
+  String boardsLine(String b1, String b2, String s) {
+    return 'B1 $b1 · B2 $b2 · scoop $s';
+  }
 }

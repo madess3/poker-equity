@@ -27,10 +27,13 @@ class AppDrawer extends ConsumerWidget {
         selected: on,
         selectedTileColor: c.accentSoft,
         selectedColor: c.accentText,
-        title: Text(title,
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: on ? FontWeight.w600 : FontWeight.w400)),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: on ? FontWeight.w600 : FontWeight.w400,
+          ),
+        ),
         onTap: () {
           Navigator.pop(context);
           if (!on) context.go(path);
@@ -41,55 +44,74 @@ class AppDrawer extends ConsumerWidget {
     return Drawer(
       width: 304,
       child: SafeArea(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 8, 16),
-            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Container(
-                    width: 48,
-                    height: 48,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: theme.colorScheme.primary,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Text('♠',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: theme.colorScheme.onPrimary)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 8, 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '♠',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: theme.colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(l.appTitle, style: theme.textTheme.titleLarge),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 12),
-                  Text(l.appTitle, style: theme.textTheme.titleLarge),
-                ]),
+                  IconButton.filledTonal(
+                    tooltip: l.toggleTheme,
+                    onPressed: () => ref
+                        .read(settingsProvider.notifier)
+                        .toggleTheme(theme.brightness),
+                    icon: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      transitionBuilder: (w, a) =>
+                          RotationTransition(turns: a, child: w),
+                      child: Icon(
+                        dark
+                            ? Icons.dark_mode_outlined
+                            : Icons.light_mode_outlined,
+                        key: ValueKey(dark),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              IconButton.filledTonal(
-                tooltip: l.toggleTheme,
-                onPressed: () => ref
-                    .read(settingsProvider.notifier)
-                    .toggleTheme(theme.brightness),
-                icon: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 250),
-                  transitionBuilder: (w, a) =>
-                      RotationTransition(turns: a, child: w),
-                  child: Icon(
-                      dark ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
-                      key: ValueKey(dark)),
-                ),
+            ),
+            Divider(color: c.line, height: 1),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(8),
+                children: [
+                  for (final g in Game.values) item(g.title(l), g.path),
+                  Divider(color: c.line, indent: 16, endIndent: 16),
+                  item(l.settings, '/settings'),
+                  item(l.about, '/about'),
+                ],
               ),
-            ]),
-          ),
-          Divider(color: c.line, height: 1),
-          Expanded(
-            child: ListView(padding: const EdgeInsets.all(8), children: [
-              for (final g in Game.values) item(g.title(l), g.path),
-              Divider(color: c.line, indent: 16, endIndent: 16),
-              item(l.settings, '/settings'),
-              item(l.about, '/about'),
-            ]),
-          ),
-        ]),
+            ),
+          ],
+        ),
       ),
     );
   }

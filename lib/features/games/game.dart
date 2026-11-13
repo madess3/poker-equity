@@ -7,8 +7,19 @@ enum Game {
   omahaHiLo(path: '/omaha-hi-lo', handCards: [4, 5, 6], maxPlayers: 9),
   shortDeck(path: '/short-deck', handCards: [2], maxPlayers: 9, hasRules: true),
   pineapple(path: '/pineapple', handCards: [3], maxPlayers: 9),
-  ofc(path: '/ofc', handCards: [], maxPlayers: 4, minPlayers: 2, doubleBoard: false),
-  handStrength(path: '/hand-strength', handCards: [], maxPlayers: 1, doubleBoard: false);
+  ofc(
+    path: '/ofc',
+    handCards: [],
+    maxPlayers: 4,
+    minPlayers: 2,
+    doubleBoard: false,
+  ),
+  handStrength(
+    path: '/hand-strength',
+    handCards: [],
+    maxPlayers: 1,
+    doubleBoard: false,
+  );
 
   const Game({
     required this.path,
@@ -30,14 +41,14 @@ enum Game {
   int maxPlayersFor(int cards) => cards == 6 ? 8 : maxPlayers;
 
   String title(AppLocalizations l) => switch (this) {
-        Game.holdem => l.holdem,
-        Game.omaha => l.omaha,
-        Game.omahaHiLo => l.omahaHiLo,
-        Game.shortDeck => l.shortDeck,
-        Game.pineapple => l.pineapple,
-        Game.ofc => l.ofc,
-        Game.handStrength => l.handStrength,
-      };
+    Game.holdem => l.holdem,
+    Game.omaha => l.omaha,
+    Game.omahaHiLo => l.omahaHiLo,
+    Game.shortDeck => l.shortDeck,
+    Game.pineapple => l.pineapple,
+    Game.ofc => l.ofc,
+    Game.handStrength => l.handStrength,
+  };
 
   /// Игры, доступные во вкладке «Сила руки».
   static const strengthGames = [holdem, omaha, omahaHiLo, shortDeck, pineapple];

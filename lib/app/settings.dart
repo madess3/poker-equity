@@ -24,12 +24,11 @@ class AppSettings {
     ThemeMode? themeMode,
     Locale? Function()? locale,
     ShortDeckRule? shortDeckRule,
-  }) =>
-      AppSettings(
-        themeMode: themeMode ?? this.themeMode,
-        locale: locale != null ? locale() : this.locale,
-        shortDeckRule: shortDeckRule ?? this.shortDeckRule,
-      );
+  }) => AppSettings(
+    themeMode: themeMode ?? this.themeMode,
+    locale: locale != null ? locale() : this.locale,
+    shortDeckRule: shortDeckRule ?? this.shortDeckRule,
+  );
 }
 
 class SettingsNotifier extends Notifier<AppSettings> {
@@ -56,8 +55,9 @@ class SettingsNotifier extends Notifier<AppSettings> {
   }
 
   /// Кнопка в меню: переключает на противоположную текущей видимой теме.
-  void toggleTheme(Brightness current) =>
-      setThemeMode(current == Brightness.dark ? ThemeMode.light : ThemeMode.dark);
+  void toggleTheme(Brightness current) => setThemeMode(
+    current == Brightness.dark ? ThemeMode.light : ThemeMode.dark,
+  );
 
   void setLocale(Locale? l) {
     l == null ? _p.remove(_kLocale) : _p.setString(_kLocale, l.languageCode);
@@ -70,5 +70,6 @@ class SettingsNotifier extends Notifier<AppSettings> {
   }
 }
 
-final settingsProvider =
-    NotifierProvider<SettingsNotifier, AppSettings>(SettingsNotifier.new);
+final settingsProvider = NotifierProvider<SettingsNotifier, AppSettings>(
+  SettingsNotifier.new,
+);
