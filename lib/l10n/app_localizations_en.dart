@@ -521,4 +521,104 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get runNote =>
       'The number of runs doesn\'t change the average share, only the spread.';
+
+  @override
+  String get fold => 'Fold';
+
+  @override
+  String boardShort(int n) {
+    return 'B$n';
+  }
+
+  @override
+  String scoopLine(String p) {
+    return 'scoop $p';
+  }
+
+  @override
+  String get catRoyal => 'Royal';
+
+  @override
+  String get ofcHelp => 'Royalties and rules';
+
+  @override
+  String get ofcFoulBadge => 'FOUL';
+
+  @override
+  String ofcRoyalty(int n) {
+    return 'royalties $n';
+  }
+
+  @override
+  String get ofcMarkFoul => 'Foul';
+
+  @override
+  String get ofcUnfoul => 'Not foul';
+
+  @override
+  String get ofcChoose => 'Choose';
+
+  @override
+  String get ofcFillAll => 'Fill in every box to see the score';
+
+  @override
+  String ofcPair(int a, int b, String v) {
+    return '$a – $b: $v';
+  }
+
+  @override
+  String get ofcRankHint => 'Rank (needed for top royalties)';
+
+  @override
+  String get ofcPlaceHint => 'Place among equal hands in this box';
+
+  @override
+  String get ofcPlaceNote => '1 is the strongest. Equal places tie this box.';
+
+  @override
+  String get ofcRoyaltiesTab => 'Royalties';
+
+  @override
+  String get ofcVariantsTab => 'Variants';
+
+  @override
+  String get ofcRules =>
+      'Lines: +1 for each line won against an opponent. Scoop: all three lines — +3 more. Foul: bottom weaker than middle or middle weaker than top — you lose every line and your royalties. Scored each against each, the total is the sum of pairs. If adjacent boxes have the same category, mark a foul manually with the Foul button.';
+
+  @override
+  String get ofcVarProgressive => 'Progressive';
+
+  @override
+  String get ofcVarProgressiveText =>
+      'Limited fantasy: entry with QQ+ on top.\nFantasy card count depends on the top hand. [to be clarified]\nRepeat fantasy — by conditions [to be clarified].';
+
+  @override
+  String get ofcVarUnlimited => 'Unlimited';
+
+  @override
+  String get ofcVarUnlimitedText =>
+      'Fantasy without card limits [to be clarified].\nRe-entering fantasy is allowed.';
+
+  @override
+  String get ofcVarJokers => 'With jokers';
+
+  @override
+  String get ofcVarJokersText =>
+      '1–2 jokers in the deck, wild cards.\nPoints and royalties use the standard table.\nSpecial joker rules [to be clarified].';
+
+  @override
+  String get premium => 'Buy premium';
+
+  @override
+  String get premiumAd => 'Your ad could be here';
+
+  @override
+  String get premiumFree =>
+      'Everything in the app is free and ad-free. If you\'d like to support development, pick an amount.';
+
+  @override
+  String get premiumDonate => 'Voluntary donation';
+
+  @override
+  String get premiumSoon => 'Payments are coming later';
 }

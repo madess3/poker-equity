@@ -523,4 +523,105 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get runNote =>
       'Число прогонов не меняет среднюю долю, меняется только разброс.';
+
+  @override
+  String get fold => 'Пас';
+
+  @override
+  String boardShort(int n) {
+    return 'Б$n';
+  }
+
+  @override
+  String scoopLine(String p) {
+    return 'скуп $p';
+  }
+
+  @override
+  String get catRoyal => 'Роял';
+
+  @override
+  String get ofcHelp => 'Роялти и правила';
+
+  @override
+  String get ofcFoulBadge => 'ФОЛ';
+
+  @override
+  String ofcRoyalty(int n) {
+    return 'роялти $n';
+  }
+
+  @override
+  String get ofcMarkFoul => 'Фол';
+
+  @override
+  String get ofcUnfoul => 'Не фол';
+
+  @override
+  String get ofcChoose => 'Выбрать';
+
+  @override
+  String get ofcFillAll => 'Заполните все боксы, чтобы посчитать очки';
+
+  @override
+  String ofcPair(int a, int b, String v) {
+    return '$a – $b: $v';
+  }
+
+  @override
+  String get ofcRankHint => 'Ранг (нужен для роялти верха)';
+
+  @override
+  String get ofcPlaceHint => 'Место среди одинаковых комбинаций в этом боксе';
+
+  @override
+  String get ofcPlaceNote =>
+      '1 — старшая. Одинаковые места — ничья в этом боксе.';
+
+  @override
+  String get ofcRoyaltiesTab => 'Роялти';
+
+  @override
+  String get ofcVariantsTab => 'Варианты';
+
+  @override
+  String get ofcRules =>
+      'Линии: +1 за каждую выигранную у соперника. Скуп: выиграл все три линии — ещё +3. Фол: низ слабее середины или середина слабее верха — проигрываешь все линии, роялти сгорает. Расчёт каждый с каждым, итог — сумма по парам. Если категории в соседних боксах совпадают, фол отмечается вручную кнопкой «Фол».';
+
+  @override
+  String get ofcVarProgressive => 'Предельная (Progressive)';
+
+  @override
+  String get ofcVarProgressiveText =>
+      'Фантазия с ограничениями: вход с QQ+ на верху.\nЧисло карт в фантазии зависит от комбинации на верху. [уточнить таблицу]\nПовторная фантазия — по условиям [уточнить].';
+
+  @override
+  String get ofcVarUnlimited => 'Безлимитная';
+
+  @override
+  String get ofcVarUnlimitedText =>
+      'Фантазия без ограничений по числу карт [уточнить].\nПовторный вход в фантазию разрешён.';
+
+  @override
+  String get ofcVarJokers => 'С джокерами';
+
+  @override
+  String get ofcVarJokersText =>
+      'В колоде 1–2 джокера, заменяют любую карту.\nОчки и роялти — по стандартной таблице.\nОсобые правила для джокеров [уточнить].';
+
+  @override
+  String get premium => 'Купить премиум';
+
+  @override
+  String get premiumAd => 'Здесь могла быть ваша реклама';
+
+  @override
+  String get premiumFree =>
+      'Всё в приложении бесплатно и без рекламы. Если хотите поддержать разработку — выберите сумму.';
+
+  @override
+  String get premiumDonate => 'Добровольный донат';
+
+  @override
+  String get premiumSoon => 'Оплата появится позже';
 }

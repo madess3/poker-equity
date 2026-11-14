@@ -37,8 +37,8 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
   final List<int> dead = [];
   final Map<int, Set<String>> ranges = {};
   final Set<int> discarded = {}; // ананас: игроки, уже сбросившие карту
-  String? selected = 'p0_0';
-  bool keyboard = true;
+  String? selected; // клавиатура появляется после нажатия на слот
+  bool keyboard = false;
   bool showDead = false;
   bool mixed = false;
 
@@ -69,9 +69,8 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
       discarded.addAll(snap.discarded);
       mixed = snap.mixed;
       showDead = dead.isNotEmpty;
-      final empty = slotOrder.where((k) => !cards.containsKey(k));
-      selected = empty.isEmpty ? null : empty.first;
-      keyboard = selected != null;
+      selected = null; // клавиатура скрыта до нажатия на слот
+      keyboard = false;
       if (cards.isNotEmpty || ranges.isNotEmpty) {
         WidgetsBinding.instance.addPostFrameCallback((_) => _recalc());
       }
@@ -108,8 +107,15 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
         ),
       );
 
-  /// Убрать конкретного игрока: следующие сдвигаются вверх, его карты — в колоду.
-  void _removePlayer(int p) {
+  /// Пас: игрок выходит из раздачи, его карты уходят в мак (мёртвые).
+  void _fold(int p) {
+    final folded = handOf(p);
+    _removePlayer(p, toMuck: folded);
+  }
+
+  /// Убрать конкретного игрока: следующие сдвигаются вверх, его карты — в колоду
+  /// (или в мак, если это пас).
+  void _removePlayer(int p, {List<int> toMuck = const []}) {
     if (players <= 2) return;
     setState(() {
       final newCards = <String, int>{};
@@ -141,6 +147,10 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
         ..clear()
         ..addAll(newDisc);
       players--;
+      if (toMuck.isNotEmpty) {
+        dead.addAll(toMuck);
+        showDead = true;
+      }
       pineOptions = {};
       _fixSelection();
     });
@@ -221,6 +231,17 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
     _recalc();
   }
 
+  /// Двойной тап по карте: она возвращается на клавиатуру, слот пустеет.
+  void _takeBack(String key) {
+    if (!cards.containsKey(key)) return;
+    setState(() {
+      cards.remove(key);
+      selected = key;
+      keyboard = true;
+    });
+    _recalc();
+  }
+
   void _clearSelected() {
     final key = selected;
     if (key == null) return;
@@ -243,8 +264,8 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
       discarded.clear();
       mixed = false;
       showDead = false;
-      selected = 'p0_0';
-      keyboard = true;
+      selected = null;
+      keyboard = false;
       acc = null;
       muckNeeded = false;
       deckEmpty = false;
@@ -468,11 +489,13 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
         : (handSize == 4 ? 62.0 : (handSize == 7 ? 56.0 : 58.0));
 
     Widget slot(String key, double w, double h) => PlayingCardView(
+      key: ValueKey('slot-$key'),
       card: cards[key],
       width: w,
       height: h,
       selected: keyboard && selected == key,
       onTap: () => _select(key),
+      onDoubleTap: () => _takeBack(key),
     );
 
     final selectors = <Widget>[
@@ -532,25 +555,27 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
     return Scaffold(
       drawer: const AppDrawer(),
       appBar: AppBar(
-        title: Text(game.title(l)),
-        actions: [
-          FilterChip(
-            label: Text(l.doubleBoard),
-            selected: doubleBoard,
-            showCheckmark: false,
-            selectedColor: theme.colorScheme.primary,
-            labelStyle: TextStyle(
-              fontSize: 13,
-              color: doubleBoard ? theme.colorScheme.onPrimary : null,
+        titleSpacing: 0,
+        title: Row(
+          children: [
+            Flexible(
+              child: Text(game.title(l), overflow: TextOverflow.ellipsis),
             ),
-            onSelected: _setDoubleBoard,
-          ),
+            const SizedBox(width: 10),
+            _DbToggle(
+              on: doubleBoard,
+              onChanged: _setDoubleBoard,
+              tooltip: l.doubleBoard,
+            ),
+          ],
+        ),
+        actions: [
           IconButton(
             tooltip: l.clearAll,
             onPressed: cards.isEmpty && dead.isEmpty && ranges.isEmpty
                 ? null
                 : _clearAll,
-            icon: const Icon(Icons.delete_sweep_outlined),
+            icon: Icon(Icons.delete_outline, color: c.danger),
           ),
           IconButton(
             tooltip: l.cameraV2,
@@ -574,7 +599,17 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                for (var b = 0; b < boardCount; b++) boardRow(b),
+                // Плавное появление второго борда вместо резкого скачка.
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeOut,
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      for (var b = 0; b < boardCount; b++) boardRow(b),
+                    ],
+                  ),
+                ),
                 if (deckEmpty)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -634,10 +669,15 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
                         : null,
                     equity: a?.equity(i),
                     detail: a == null ? null : _detail(l, a, i),
+                    boardEq: a == null || !doubleBoard
+                        ? null
+                        : [a.board(0, i), a.board(1, i)],
+                    scoop: a?.scoopOf(i),
                     stale: busy,
                     options: pineOptions[i],
                     onDiscard: (card) => _discard(i, card),
                     onRemove: players > 2 ? () => _removePlayer(i) : null,
+                    onFold: players > 2 ? () => _fold(i) : null,
                   ),
                 Row(
                   children: [
@@ -688,11 +728,6 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
       parts.add(l.hiLoLine(pct(a.hiOf(i)), pct(a.loOf(i)), pct(a.scoopOf(i))));
     } else if (!doubleBoard) {
       parts.add(l.winTie(pct(a.winOf(i)), pct(a.tieOf(i))));
-    }
-    if (doubleBoard) {
-      parts.add(
-        l.boardsLine(pct(a.board(0, i)), pct(a.board(1, i)), pct(a.scoopOf(i))),
-      );
     }
     return parts.join('\n');
   }
@@ -763,6 +798,9 @@ class _PlayerTile extends StatelessWidget {
     required this.options,
     required this.onDiscard,
     required this.onRemove,
+    required this.onFold,
+    this.boardEq,
+    this.scoop,
   });
 
   final String name;
@@ -776,6 +814,9 @@ class _PlayerTile extends StatelessWidget {
   final List<(int, double)>? options;
   final ValueChanged<int> onDiscard;
   final VoidCallback? onRemove; // убрать этого игрока
+  final VoidCallback? onFold; // пас: карты в мак
+  final List<double>? boardEq; // дабл борд: эквити по каждому борду
+  final double? scoop;
 
   @override
   Widget build(BuildContext context) {
@@ -821,7 +862,33 @@ class _PlayerTile extends StatelessWidget {
               backgroundColor: c.surface2,
             ),
           ),
-          if (detail != null) ...[
+          if (boardEq != null) ...[
+            const SizedBox(height: 6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                for (final (b, e) in boardEq!.indexed) ...[
+                  if (b > 0) const SizedBox(width: 14),
+                  Text('${l.boardShort(b + 1)} ', style: t.bodySmall),
+                  Text(
+                    pct(e),
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: c.equityColor(e),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            if (scoop != null)
+              Text(
+                l.scoopLine(pct(scoop!)),
+                textAlign: TextAlign.right,
+                style: t.bodySmall,
+              ),
+          ],
+          if (detail != null && detail!.isNotEmpty) ...[
             const SizedBox(height: 6),
             Text(detail!, textAlign: TextAlign.right, style: t.bodySmall),
           ],
@@ -836,6 +903,15 @@ class _PlayerTile extends StatelessWidget {
           Expanded(child: Text(name, style: t.bodySmall)),
           if (onRange != null && rangeLabel == null)
             TextButton(onPressed: onRange, child: Text(l.range)),
+          if (onFold != null)
+            TextButton(
+              onPressed: onFold,
+              style: TextButton.styleFrom(
+                visualDensity: VisualDensity.compact,
+                foregroundColor: c.muted,
+              ),
+              child: Text(l.fold),
+            ),
           if (onRemove != null)
             IconButton(
               tooltip: l.removePlayer,
@@ -942,6 +1018,61 @@ class _DiscardOption extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Переключатель дабл борда рядом с названием игры. Без «вспышки» нажатия.
+class _DbToggle extends StatelessWidget {
+  const _DbToggle({
+    required this.on,
+    required this.onChanged,
+    required this.tooltip,
+  });
+  final bool on;
+  final ValueChanged<bool> onChanged;
+  final String tooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final c = context.colors;
+    return Tooltip(
+      message: tooltip,
+      child: Semantics(
+        button: true,
+        toggled: on,
+        label: tooltip,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => onChanged(!on),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOut,
+              height: 30,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: on ? theme.colorScheme.primary : Colors.transparent,
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: on ? theme.colorScheme.primary : c.line,
+                ),
+              ),
+              child: Text(
+                'DB',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: on ? theme.colorScheme.onPrimary : c.muted,
+                ),
               ),
             ),
           ),

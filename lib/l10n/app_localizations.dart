@@ -1033,6 +1033,180 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Число прогонов не меняет среднюю долю, меняется только разброс.'**
   String get runNote;
+
+  /// No description provided for @fold.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пас'**
+  String get fold;
+
+  /// No description provided for @boardShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Б{n}'**
+  String boardShort(int n);
+
+  /// No description provided for @scoopLine.
+  ///
+  /// In ru, this message translates to:
+  /// **'скуп {p}'**
+  String scoopLine(String p);
+
+  /// No description provided for @catRoyal.
+  ///
+  /// In ru, this message translates to:
+  /// **'Роял'**
+  String get catRoyal;
+
+  /// No description provided for @ofcHelp.
+  ///
+  /// In ru, this message translates to:
+  /// **'Роялти и правила'**
+  String get ofcHelp;
+
+  /// No description provided for @ofcFoulBadge.
+  ///
+  /// In ru, this message translates to:
+  /// **'ФОЛ'**
+  String get ofcFoulBadge;
+
+  /// No description provided for @ofcRoyalty.
+  ///
+  /// In ru, this message translates to:
+  /// **'роялти {n}'**
+  String ofcRoyalty(int n);
+
+  /// No description provided for @ofcMarkFoul.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фол'**
+  String get ofcMarkFoul;
+
+  /// No description provided for @ofcUnfoul.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не фол'**
+  String get ofcUnfoul;
+
+  /// No description provided for @ofcChoose.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрать'**
+  String get ofcChoose;
+
+  /// No description provided for @ofcFillAll.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните все боксы, чтобы посчитать очки'**
+  String get ofcFillAll;
+
+  /// No description provided for @ofcPair.
+  ///
+  /// In ru, this message translates to:
+  /// **'{a} – {b}: {v}'**
+  String ofcPair(int a, int b, String v);
+
+  /// No description provided for @ofcRankHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ранг (нужен для роялти верха)'**
+  String get ofcRankHint;
+
+  /// No description provided for @ofcPlaceHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Место среди одинаковых комбинаций в этом боксе'**
+  String get ofcPlaceHint;
+
+  /// No description provided for @ofcPlaceNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'1 — старшая. Одинаковые места — ничья в этом боксе.'**
+  String get ofcPlaceNote;
+
+  /// No description provided for @ofcRoyaltiesTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Роялти'**
+  String get ofcRoyaltiesTab;
+
+  /// No description provided for @ofcVariantsTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Варианты'**
+  String get ofcVariantsTab;
+
+  /// No description provided for @ofcRules.
+  ///
+  /// In ru, this message translates to:
+  /// **'Линии: +1 за каждую выигранную у соперника. Скуп: выиграл все три линии — ещё +3. Фол: низ слабее середины или середина слабее верха — проигрываешь все линии, роялти сгорает. Расчёт каждый с каждым, итог — сумма по парам. Если категории в соседних боксах совпадают, фол отмечается вручную кнопкой «Фол».'**
+  String get ofcRules;
+
+  /// No description provided for @ofcVarProgressive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Предельная (Progressive)'**
+  String get ofcVarProgressive;
+
+  /// No description provided for @ofcVarProgressiveText.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фантазия с ограничениями: вход с QQ+ на верху.\nЧисло карт в фантазии зависит от комбинации на верху. [уточнить таблицу]\nПовторная фантазия — по условиям [уточнить].'**
+  String get ofcVarProgressiveText;
+
+  /// No description provided for @ofcVarUnlimited.
+  ///
+  /// In ru, this message translates to:
+  /// **'Безлимитная'**
+  String get ofcVarUnlimited;
+
+  /// No description provided for @ofcVarUnlimitedText.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фантазия без ограничений по числу карт [уточнить].\nПовторный вход в фантазию разрешён.'**
+  String get ofcVarUnlimitedText;
+
+  /// No description provided for @ofcVarJokers.
+  ///
+  /// In ru, this message translates to:
+  /// **'С джокерами'**
+  String get ofcVarJokers;
+
+  /// No description provided for @ofcVarJokersText.
+  ///
+  /// In ru, this message translates to:
+  /// **'В колоде 1–2 джокера, заменяют любую карту.\nОчки и роялти — по стандартной таблице.\nОсобые правила для джокеров [уточнить].'**
+  String get ofcVarJokersText;
+
+  /// No description provided for @premium.
+  ///
+  /// In ru, this message translates to:
+  /// **'Купить премиум'**
+  String get premium;
+
+  /// No description provided for @premiumAd.
+  ///
+  /// In ru, this message translates to:
+  /// **'Здесь могла быть ваша реклама'**
+  String get premiumAd;
+
+  /// No description provided for @premiumFree.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всё в приложении бесплатно и без рекламы. Если хотите поддержать разработку — выберите сумму.'**
+  String get premiumFree;
+
+  /// No description provided for @premiumDonate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добровольный донат'**
+  String get premiumDonate;
+
+  /// No description provided for @premiumSoon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплата появится позже'**
+  String get premiumSoon;
 }
 
 class _AppLocalizationsDelegate

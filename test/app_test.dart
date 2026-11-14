@@ -1,7 +1,6 @@
-import 'dart:ui' show Size;
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:poker_equity/app/settings.dart';
 import 'package:poker_equity/features/games/game.dart';
 import 'package:poker_equity/main.dart';
@@ -40,7 +39,9 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    // Клавиатура открыта сразу: вводим AA против KK.
+    // Клавиатура появляется после нажатия на слот: вводим AA против KK.
+    await tester.tap(find.byKey(const ValueKey('slot-p0_0')));
+    await tester.pump();
     for (final code in ['As', 'Ah', 'Ks', 'Kh']) {
       await tester.tap(find.bySemanticsLabel(code).first);
       await tester.pump();

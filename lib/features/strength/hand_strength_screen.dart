@@ -30,8 +30,8 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
   int omahaCards = 4;
   bool hiLo = false;
   final Map<int, int> cards = {};
-  int? selected = 0;
-  bool keyboard = true;
+  int? selected; // клавиатура появляется после нажатия на слот
+  bool keyboard = false;
 
   String? top; // «12.0%»
   String? sub; // «#20 из 169» или «±1%»
@@ -60,12 +60,8 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
         (k, v) => MapEntry(int.parse(k as String), v as int),
       );
       cards.addAll(m);
-      final empty = [
-        for (var i = 0; i < size; i++)
-          if (!cards.containsKey(i)) i,
-      ];
-      selected = empty.isEmpty ? null : empty.first;
-      keyboard = selected != null;
+      selected = null;
+      keyboard = false;
       if (cards.length == size) {
         WidgetsBinding.instance.addPostFrameCallback((_) => _calc());
       }
@@ -83,7 +79,7 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
 
   void _reset() {
     cards.clear();
-    selected = 0;
+    selected = null;
     keyboard = true;
     top = sub = fill = null;
     _save();
@@ -263,6 +259,7 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
                     for (var i = 0; i < n; i++) ...[
                       if (i > 0) const SizedBox(width: 8),
                       PlayingCardView(
+                        key: ValueKey('slot-p0_$i'),
                         card: cards[i],
                         width: w,
                         height: h,

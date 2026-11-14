@@ -11,6 +11,10 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.cardFace,
     required this.warn,
     required this.warnBg,
+    required this.danger,
+    required this.eqGood,
+    required this.eqMid,
+    required this.eqBad,
   });
 
   final Color surface2;
@@ -21,6 +25,17 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color cardFace;
   final Color warn;
   final Color warnBg;
+  final Color danger; // кнопка очистки
+  final Color eqGood,
+      eqMid,
+      eqBad; // шкала эквити: зелёный / оранжевый / красный
+
+  /// Цвет эквити: 0 — красный, 45–55% — оранжевый, 100% — зелёный, плавно.
+  Color equityColor(double e) {
+    if (e < 0.45) return Color.lerp(eqBad, eqMid, (e / 0.45).clamp(0.0, 1.0))!;
+    if (e <= 0.55) return eqMid;
+    return Color.lerp(eqMid, eqGood, ((e - 0.55) / 0.45).clamp(0.0, 1.0))!;
+  }
 
   static const dark = AppColors(
     surface2: Color(0xFF262A31),
@@ -31,6 +46,10 @@ class AppColors extends ThemeExtension<AppColors> {
     cardFace: Color(0xFFF4F5F6),
     warn: Color(0xFFF5B45A),
     warnBg: Color(0xFF3A2E1A),
+    danger: Color(0xFFFF6B6B),
+    eqGood: Color(0xFF3DDC97),
+    eqMid: Color(0xFFF5A524),
+    eqBad: Color(0xFFFF5C5C),
   );
 
   static const light = AppColors(
@@ -42,6 +61,10 @@ class AppColors extends ThemeExtension<AppColors> {
     cardFace: Color(0xFFFFFFFF),
     warn: Color(0xFF8A5300),
     warnBg: Color(0xFFFCEFD9),
+    danger: Color(0xFFC62828),
+    eqGood: Color(0xFF0E7F57),
+    eqMid: Color(0xFFB45309),
+    eqBad: Color(0xFFC62828),
   );
 
   @override
@@ -60,6 +83,10 @@ class AppColors extends ThemeExtension<AppColors> {
       cardFace: l(cardFace, other.cardFace),
       warn: l(warn, other.warn),
       warnBg: l(warnBg, other.warnBg),
+      danger: l(danger, other.danger),
+      eqGood: l(eqGood, other.eqGood),
+      eqMid: l(eqMid, other.eqMid),
+      eqBad: l(eqBad, other.eqBad),
     );
   }
 }

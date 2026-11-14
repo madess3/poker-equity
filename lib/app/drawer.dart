@@ -111,6 +111,7 @@ class AppDrawer extends ConsumerWidget {
                   ),
                   item(l.icmTitle, '/icm'),
                   Divider(color: c.line, indent: 16, endIndent: 16),
+                  item(l.premium, '/premium'),
                   item(l.settings, '/settings'),
                   item(l.about, '/about'),
                 ],

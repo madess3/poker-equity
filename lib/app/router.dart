@@ -3,10 +3,11 @@ import 'package:material_ui/material_ui.dart';
 
 import '../features/equity/ui/equity_screen.dart';
 import '../features/games/game.dart';
-import '../features/games/game_screen.dart';
 import '../features/settings/about_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/icm/icm_screen.dart';
+import '../features/ofc/ofc_screen.dart';
+import '../features/settings/premium_screen.dart';
 import '../features/strength/hand_strength_screen.dart';
 
 /// Переходы без анимации — как переключение разделов в меню.
@@ -28,11 +29,15 @@ GoRouter _build() => GoRouter(
       GoRoute(
         path: g.path,
         pageBuilder: (_, s) => _page(s, switch (g) {
-          Game.ofc => GameScreen(game: g),
+          Game.ofc => const OfcScreen(),
           Game.handStrength => const HandStrengthScreen(),
           _ => EquityScreen(game: g),
         }),
       ),
+    GoRoute(
+      path: '/premium',
+      pageBuilder: (_, s) => _page(s, const PremiumScreen()),
+    ),
     GoRoute(path: '/icm', pageBuilder: (_, s) => _page(s, const IcmScreen())),
     GoRoute(
       path: '/settings',

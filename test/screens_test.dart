@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:poker_equity/app/router.dart';
 import 'package:poker_equity/app/settings.dart';
+import 'package:poker_equity/core/widgets/playing_card.dart';
+import 'package:poker_equity/features/equity/logic/cards.dart';
 import 'package:poker_equity/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +28,12 @@ Future<void> openApp(WidgetTester tester, String path) async {
 }
 
 Future<void> tapCards(WidgetTester tester, List<String> codes) async {
+  // Клавиатура скрыта, пока не нажат слот: открываем её на первом слоте.
+  final first = find.byKey(const ValueKey('slot-p0_0'));
+  if (find.text('Готово').evaluate().isEmpty && first.evaluate().isNotEmpty) {
+    await tester.tap(first);
+    await tester.pump();
+  }
   for (final code in codes) {
     await tester.tap(find.bySemanticsLabel(code).last);
     await tester.pump();
@@ -131,8 +139,10 @@ void main() {
     await tester.pumpAndSettle();
     appRouter.go('/holdem');
     await tester.pumpAndSettle();
-    expect(find.bySemanticsLabel('Ah'), findsWidgets);
-    expect(find.bySemanticsLabel('Kh'), findsWidgets);
+    int? slot(String k) =>
+        tester.widget<PlayingCardView>(find.byKey(ValueKey('slot-$k'))).card;
+    expect(slot('p0_0'), parseCard('Ah'));
+    expect(slot('p0_1'), parseCard('Kh'));
   });
 
   testWidgets('Убрать конкретного игрока', (tester) async {
@@ -222,5 +232,67 @@ void main() {
     await waitFor(tester, find.text('3.8%'));
     expect(find.text('3.8%'), findsOneWidget);
     expect(find.text('62.9%'), findsOneWidget);
+  });
+
+  testWidgets('Пас: карты игрока уходят в мёртвые', (tester) async {
+    await openApp(tester, '/holdem');
+    await tester.tap(find.textContaining('Игроков'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('3').last);
+    await tester.pumpAndSettle();
+    await tapCards(tester, ['Ah', 'Kh', 'Qs', 'Qd', '7c', '7d']);
+    await tester.tap(find.text('Готово'));
+    await tester.pump();
+    await tester.tap(find.text('Пас').at(1));
+    await tester.pump();
+    expect(find.text('Игрок 3'), findsNothing);
+    expect(find.text('Мёртвые'), findsOneWidget);
+  });
+
+  testWidgets('Двойной тап возвращает карту', (tester) async {
+    await openApp(tester, '/holdem');
+    await tapCards(tester, ['Ah']);
+    await tester.tap(find.text('Готово'));
+    await tester.pump();
+    final slot = find.byKey(const ValueKey('slot-p0_0'));
+    await tester.tap(slot);
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.tap(slot);
+    await tester.pumpAndSettle();
+    expect(tester.widget<PlayingCardView>(slot).card, isNull);
+    expect(find.text('Готово'), findsOneWidget); // клавиатура открыта
+  });
+
+  testWidgets('OFC: 2 игрока, подсчёт очков', (tester) async {
+    await openApp(tester, '/ofc');
+    expect(find.text('Игрок 2'), findsWidgets);
+    expect(find.text('Игрок 3'), findsNothing);
+    Future<void> pick(int row, String combo) async {
+      await tester.tap(find.text('Выбрать').first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(combo).last);
+      await tester.pump();
+      await tester.tap(find.text('Готово').last);
+      await tester.pumpAndSettle();
+    }
+
+    // Игрок 1: старшая / пара / флеш; игрок 2: старшая / старшая / пара.
+    await pick(0, 'Старшая карта');
+    await pick(1, 'Пара');
+    await pick(2, 'Флеш');
+    await pick(0, 'Старшая карта');
+    await pick(1, 'Старшая карта');
+    await pick(2, 'Пара');
+    // 2 выигранные линии + роялти за флеш внизу (4); верх — ничья, скупа нет.
+    expect(find.text('+6'), findsOneWidget);
+    expect(find.text('−6'), findsOneWidget);
+  });
+
+  testWidgets('Премиум: суммы доната', (tester) async {
+    await openApp(tester, '/premium');
+    expect(find.text('Здесь могла быть ваша реклама'), findsOneWidget);
+    for (final a in ['4.99', '19.99', '99.99', '999.99']) {
+      expect(find.text('\$$a'), findsOneWidget);
+    }
   });
 }

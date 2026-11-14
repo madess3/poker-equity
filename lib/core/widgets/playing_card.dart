@@ -56,6 +56,7 @@ class PlayingCardView extends StatelessWidget {
     this.height = 62,
     this.selected = false,
     this.onTap,
+    this.onDoubleTap,
   });
 
   final int? card;
@@ -63,6 +64,7 @@ class PlayingCardView extends StatelessWidget {
   final double height;
   final bool selected;
   final VoidCallback? onTap;
+  final VoidCallback? onDoubleTap; // только у заполненной карты
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +89,12 @@ class PlayingCardView extends StatelessWidget {
           );
     if (onTap == null) return face;
     return Semantics(
+      container: true,
       button: true,
       label: c == null ? null : cardCode(c),
       child: GestureDetector(
         onTap: onTap,
+        onDoubleTap: c == null ? null : onDoubleTap,
         behavior: HitTestBehavior.opaque,
         child: face,
       ),
