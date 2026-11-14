@@ -655,6 +655,384 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Стрит-флеш'**
   String get catStraightFlush;
+
+  /// No description provided for @removePlayer.
+  ///
+  /// In ru, this message translates to:
+  /// **'Убрать игрока'**
+  String get removePlayer;
+
+  /// No description provided for @deckEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Колода закончилась: добор невозможен'**
+  String get deckEmpty;
+
+  /// No description provided for @icmTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'ICM · делёжка'**
+  String get icmTitle;
+
+  /// No description provided for @icmStacks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стеки'**
+  String get icmStacks;
+
+  /// No description provided for @icmChipsTotal.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего фишек: {n}'**
+  String icmChipsTotal(String n);
+
+  /// No description provided for @icmPrizes.
+  ///
+  /// In ru, this message translates to:
+  /// **'Призовые'**
+  String get icmPrizes;
+
+  /// No description provided for @icmPlace.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n}-е место'**
+  String icmPlace(int n);
+
+  /// No description provided for @icmFund.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фонд: {n}'**
+  String icmFund(String n);
+
+  /// No description provided for @icmPrizeOrder.
+  ///
+  /// In ru, this message translates to:
+  /// **'Призы должны идти по убыванию'**
+  String get icmPrizeOrder;
+
+  /// No description provided for @icmLeave.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оставить победителю'**
+  String get icmLeave;
+
+  /// No description provided for @icmFillAll.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните стеки всех игроков и призовые.'**
+  String get icmFillAll;
+
+  /// No description provided for @icmPlayer.
+  ///
+  /// In ru, this message translates to:
+  /// **'Игрок'**
+  String get icmPlayer;
+
+  /// No description provided for @icmByChips.
+  ///
+  /// In ru, this message translates to:
+  /// **'По фишкам'**
+  String get icmByChips;
+
+  /// No description provided for @icmEqual.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поровну'**
+  String get icmEqual;
+
+  /// No description provided for @icmOverFirst.
+  ///
+  /// In ru, this message translates to:
+  /// **'больше первого приза'**
+  String get icmOverFirst;
+
+  /// No description provided for @icmReserved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Разыгрывается: {r}'**
+  String icmReserved(String r);
+
+  /// No description provided for @icmNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'ICM считает всех игроков равными по силе и не учитывает блайнды и позицию.'**
+  String get icmNote;
+
+  /// No description provided for @menuChop.
+  ///
+  /// In ru, this message translates to:
+  /// **'EV chop · Страховка'**
+  String get menuChop;
+
+  /// No description provided for @insuranceTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страховка'**
+  String get insuranceTab;
+
+  /// No description provided for @runoutsTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прокрутки'**
+  String get runoutsTab;
+
+  /// No description provided for @toHand.
+  ///
+  /// In ru, this message translates to:
+  /// **'К раздаче'**
+  String get toHand;
+
+  /// No description provided for @needTwoHands.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите руки минимум двух игроков'**
+  String get needTwoHands;
+
+  /// No description provided for @modelLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Модель:'**
+  String get modelLabel;
+
+  /// No description provided for @modelTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Модель'**
+  String get modelTitle;
+
+  /// No description provided for @modelChop.
+  ///
+  /// In ru, this message translates to:
+  /// **'EV chop'**
+  String get modelChop;
+
+  /// No description provided for @modelOuts.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страховка от аутов'**
+  String get modelOuts;
+
+  /// No description provided for @allCardsOpen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все карты открыты'**
+  String get allCardsOpen;
+
+  /// No description provided for @feePct.
+  ///
+  /// In ru, this message translates to:
+  /// **'Комиссия, %'**
+  String get feePct;
+
+  /// No description provided for @chopSum.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сумма EV chop'**
+  String get chopSum;
+
+  /// No description provided for @fee.
+  ///
+  /// In ru, this message translates to:
+  /// **'Комиссия'**
+  String get fee;
+
+  /// No description provided for @shareNoDeal.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доля без сделки'**
+  String get shareNoDeal;
+
+  /// No description provided for @chopCosts.
+  ///
+  /// In ru, this message translates to:
+  /// **'EV chop стоит {x}'**
+  String chopCosts(String x);
+
+  /// No description provided for @chopOfShare.
+  ///
+  /// In ru, this message translates to:
+  /// **'{p} от вашей доли в банке'**
+  String chopOfShare(String p);
+
+  /// No description provided for @feeFromPot.
+  ///
+  /// In ru, this message translates to:
+  /// **'Комиссия считается от банка'**
+  String get feeFromPot;
+
+  /// No description provided for @insTwoPlayers.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нужны ровно 2 игрока с известными руками.'**
+  String get insTwoPlayers;
+
+  /// No description provided for @insStreet.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страховка считается на флопе или тёрне.'**
+  String get insStreet;
+
+  /// No description provided for @insuredLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страхуется:'**
+  String get insuredLabel;
+
+  /// No description provided for @streetLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улица:'**
+  String get streetLabel;
+
+  /// No description provided for @streetTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улица'**
+  String get streetTitle;
+
+  /// No description provided for @streetToRiver.
+  ///
+  /// In ru, this message translates to:
+  /// **'до ривера'**
+  String get streetToRiver;
+
+  /// No description provided for @streetTurn.
+  ///
+  /// In ru, this message translates to:
+  /// **'тёрн'**
+  String get streetTurn;
+
+  /// No description provided for @insNoOuts.
+  ///
+  /// In ru, this message translates to:
+  /// **'У соперника нет аутов — страховать нечего.'**
+  String get insNoOuts;
+
+  /// No description provided for @insStake.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сумма страховки'**
+  String get insStake;
+
+  /// No description provided for @insOdds.
+  ///
+  /// In ru, this message translates to:
+  /// **'Коэффициент выплаты'**
+  String get insOdds;
+
+  /// No description provided for @insOppOuts.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ауты соперника'**
+  String get insOppOuts;
+
+  /// No description provided for @insChance.
+  ///
+  /// In ru, this message translates to:
+  /// **'Шанс аута'**
+  String get insChance;
+
+  /// No description provided for @insFair.
+  ///
+  /// In ru, this message translates to:
+  /// **'Честный коэфф.'**
+  String get insFair;
+
+  /// No description provided for @insEv.
+  ///
+  /// In ru, this message translates to:
+  /// **'EV страховки'**
+  String get insEv;
+
+  /// No description provided for @insGood.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страховка выгодна'**
+  String get insGood;
+
+  /// No description provided for @insBad.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страховка невыгодна'**
+  String get insBad;
+
+  /// No description provided for @insSub.
+  ///
+  /// In ru, this message translates to:
+  /// **'дают {k} при честных {f} · переплата {o}% взноса'**
+  String insSub(String k, String f, String o);
+
+  /// No description provided for @insFooter.
+  ///
+  /// In ru, this message translates to:
+  /// **'Попал аут — выплата {pay}. Не попал — взнос {stake} сгорает.'**
+  String insFooter(String pay, String stake);
+
+  /// No description provided for @runNeedHands.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прокрутки считаются, когда известны руки всех игроков.'**
+  String get runNeedHands;
+
+  /// No description provided for @runOnce.
+  ///
+  /// In ru, this message translates to:
+  /// **'1 раз'**
+  String get runOnce;
+
+  /// No description provided for @runTwice.
+  ///
+  /// In ru, this message translates to:
+  /// **'2 раза'**
+  String get runTwice;
+
+  /// No description provided for @runThrice.
+  ///
+  /// In ru, this message translates to:
+  /// **'3 раза'**
+  String get runThrice;
+
+  /// No description provided for @runAll.
+  ///
+  /// In ru, this message translates to:
+  /// **'Забрать весь банк'**
+  String get runAll;
+
+  /// No description provided for @runPart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Получить часть'**
+  String get runPart;
+
+  /// No description provided for @runNone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего'**
+  String get runNone;
+
+  /// No description provided for @runMean.
+  ///
+  /// In ru, this message translates to:
+  /// **'Средняя доля'**
+  String get runMean;
+
+  /// No description provided for @runSd.
+  ///
+  /// In ru, this message translates to:
+  /// **'Разброс'**
+  String get runSd;
+
+  /// No description provided for @runNoCards.
+  ///
+  /// In ru, this message translates to:
+  /// **'«—» — карт в колоде не хватает на это число прогонов.'**
+  String get runNoCards;
+
+  /// No description provided for @runNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Число прогонов не меняет среднюю долю, меняется только разброс.'**
+  String get runNote;
 }
 
 class _AppLocalizationsDelegate

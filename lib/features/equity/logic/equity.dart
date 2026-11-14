@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'hand_eval.dart';
+import 'outs.dart';
 import 'rules.dart';
 
 /// Входные данные расчёта. Пустые/неполные руки добираются случайно,
@@ -160,6 +161,48 @@ int burnsNeeded(EquityRequest r) {
 /// Нужна ли кнопка «Замешать срезку и мак».
 bool needsMuck(EquityRequest r) =>
     cardsNeeded(r) + burnsNeeded(r) > cardsAvailable(r);
+
+/// Колода закончилась: делёж банка по уже открытому борду (3–5 карт),
+/// без добора. Все руки должны быть известны; иначе null.
+EquityAcc? showdownNow(EquityRequest r) {
+  final rules = r.rules;
+  final board = r.boards.first;
+  final n = r.hands.length;
+  if (board.length < 3 || r.hands.any((h) => h.length < 2)) return null;
+  final acc = EquityAcc(n, 1)..deals = 1;
+  final hi = [for (final h in r.hands) partialScore(rules, h, board)];
+  final best = hi.reduce(max);
+  final hw = hi.where((s) => s == best).length;
+  final lo = rules.hiLo
+      ? [for (final h in r.hands) bestLowOmaha(h, board)]
+      : <int>[];
+  final valid = lo.where((l) => l >= 0);
+  final bestLo = valid.isEmpty ? -1 : valid.reduce(min);
+  final lw = bestLo < 0 ? 0 : lo.where((l) => l == bestLo).length;
+  final hiPart = bestLo >= 0 ? 0.5 : 1.0;
+  for (var i = 0; i < n; i++) {
+    var got = 0.0;
+    if (hi[i] == best) {
+      got += hiPart / hw;
+      acc.hi[i] = 1 / hw;
+      if (hw == 1) {
+        acc.win[i] = 1;
+      } else {
+        acc.tie[i] = 1;
+      }
+    }
+    if (bestLo >= 0 && lo[i] == bestLo) {
+      got += 0.5 / lw;
+      acc.lo[i] = 1 / lw;
+    }
+    acc.eq[i] = got;
+    acc.perBoard[i] = got;
+    if (got > 0.999999) acc.scoop[i] = 1;
+  }
+  if (bestLo >= 0) acc.lowBoards = 1;
+  acc.exact = true;
+  return acc;
+}
 
 /// Расчёт в отдельном потоке, чтобы не тормозил интерфейс.
 /// Функция верхнего уровня: замыкание не должно захватывать виджеты.

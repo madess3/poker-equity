@@ -3,7 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../app/drawer.dart';
 import '../../l10n/app_localizations.dart';
 
-const appVersion = '0.3.0';
+const appVersion = '0.4.0';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});

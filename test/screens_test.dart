@@ -18,6 +18,9 @@ Future<void> openApp(WidgetTester tester, String path) async {
       child: const PokerEquityApp(),
     ),
   );
+  // Сбросить стек экранов от предыдущего теста (маршрутизатор общий).
+  appRouter.go('/settings');
+  await tester.pumpAndSettle();
   appRouter.go(path);
   await tester.pumpAndSettle();
 }
@@ -119,5 +122,105 @@ void main() {
     await tester.pumpAndSettle();
     await waitFor(tester, find.textContaining('Диапазон 1'));
     expect(find.textContaining('Диапазон 1'), findsOneWidget);
+  });
+
+  testWidgets('Состояние вкладки сохраняется при переходе', (tester) async {
+    await openApp(tester, '/holdem');
+    await tapCards(tester, ['Ah', 'Kh']);
+    appRouter.go('/omaha');
+    await tester.pumpAndSettle();
+    appRouter.go('/holdem');
+    await tester.pumpAndSettle();
+    expect(find.bySemanticsLabel('Ah'), findsWidgets);
+    expect(find.bySemanticsLabel('Kh'), findsWidgets);
+  });
+
+  testWidgets('Убрать конкретного игрока', (tester) async {
+    await openApp(tester, '/holdem');
+    await tester.tap(find.textContaining('Игроков'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('3').last);
+    await tester.pumpAndSettle();
+    await tapCards(tester, ['Ah', 'Kh', 'Qs', 'Qd', '7c', '7d']);
+    await tester.tap(find.byTooltip('Убрать игрока').at(1));
+    await tester.pump();
+    expect(find.text('Игрок 3'), findsNothing);
+    expect(
+      find.bySemanticsLabel('Qs'),
+      findsNWidgets(1),
+    ); // только на клавиатуре
+    expect(find.bySemanticsLabel('7c'), findsWidgets);
+  });
+
+  testWidgets('Омаха: 7 карт и лимит 7 игроков', (tester) async {
+    await openApp(tester, '/omaha');
+    await tester.tap(find.textContaining('Карт:'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('7').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.textContaining('Игроков'));
+    await tester.pumpAndSettle();
+    final sheet = find.byType(BottomSheet);
+    expect(find.descendant(of: sheet, matching: find.text('8')), findsNothing);
+    expect(
+      find.descendant(of: sheet, matching: find.text('7')),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('ICM: контрольный пример', (tester) async {
+    await openApp(tester, '/icm');
+    final fields = find.byType(TextField);
+    for (final (i, v) in ['50', '30', '20', '900', '400', '200'].indexed) {
+      await tester.enterText(fields.at(i), v);
+    }
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('617.9'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('617.9'), findsOneWidget);
+    expect(find.text('485.0'), findsOneWidget);
+    expect(find.text('397.1'), findsOneWidget);
+    expect(find.text('650.0'), findsOneWidget);
+  });
+
+  testWidgets('Ярлык «EV chop · Страховка» открывает анализ', (tester) async {
+    await openApp(tester, '/holdem');
+    await tapCards(tester, ['Ah', 'Kh', 'Qs', 'Qd', '7h', '2h', '9c']);
+    await waitFor(tester, find.textContaining('побед'));
+    appRouter.go('/holdem?open=insurance');
+    await tester.pumpAndSettle();
+    await waitFor(tester, find.text('EV chop стоит 1.0'));
+    expect(find.textContaining('EV chop'), findsWidgets);
+    await tester.tap(find.textContaining('Модель'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Страховка от аутов'));
+    await tester.pumpAndSettle();
+    expect(find.text('15'), findsOneWidget);
+  });
+
+  testWidgets('Прокрутки на тёрне', (tester) async {
+    await openApp(tester, '/holdem');
+    await tapCards(tester, ['As', 'Kd', 'Qh', 'Jh', 'Ah', '7h', '2c', '9d']);
+    await waitFor(tester, find.textContaining('побед'));
+    await tester.ensureVisible(find.text('Анализ'));
+    await tester.tap(find.text('Анализ'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Прокрутки'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Прокрутки'));
+    // На вкладке крутится индикатор расчёта — pumpAndSettle не дождётся конца.
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    await tester.tap(find.textContaining('Игрок:').hitTestable().first);
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.tap(find.text('Игрок 2').last);
+    await tester.pump(const Duration(milliseconds: 600));
+    await waitFor(tester, find.text('3.8%'));
+    expect(find.text('3.8%'), findsOneWidget);
+    expect(find.text('62.9%'), findsOneWidget);
   });
 }

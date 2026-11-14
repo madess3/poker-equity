@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../app/drawer.dart';
 import '../../app/settings.dart';
 import '../../app/theme.dart';
+import '../../core/table_store.dart';
 import '../../core/widgets/playing_card.dart';
 import '../../core/widgets/select_button.dart';
 import '../../l10n/app_localizations.dart';
@@ -44,11 +45,48 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
     _ => 2,
   };
 
+  static const _key = 'strength';
+
+  @override
+  void initState() {
+    super.initState();
+    final j = ref.read(tableStoreProvider).loadJson(_key);
+    if (j == null) return;
+    try {
+      game = StrengthGame.values[j['game'] as int];
+      omahaCards = j['omahaCards'] as int;
+      hiLo = j['hiLo'] as bool;
+      final m = (j['cards'] as Map).map(
+        (k, v) => MapEntry(int.parse(k as String), v as int),
+      );
+      cards.addAll(m);
+      final empty = [
+        for (var i = 0; i < size; i++)
+          if (!cards.containsKey(i)) i,
+      ];
+      selected = empty.isEmpty ? null : empty.first;
+      keyboard = selected != null;
+      if (cards.length == size) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _calc());
+      }
+    } catch (_) {
+      cards.clear();
+    }
+  }
+
+  void _save() => ref.read(tableStoreProvider).saveJson(_key, {
+    'game': game.index,
+    'omahaCards': omahaCards,
+    'hiLo': hiLo,
+    'cards': {for (final e in cards.entries) '${e.key}': e.value},
+  });
+
   void _reset() {
     cards.clear();
     selected = 0;
     keyboard = true;
     top = sub = fill = null;
+    _save();
   }
 
   void _place(int card) {
@@ -71,6 +109,7 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
   }
 
   Future<void> _calc() async {
+    _save();
     final gen = ++_gen;
     if (cards.length < size) {
       setState(() => top = sub = fill = null);
@@ -116,9 +155,11 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
       (StrengthGame.omaha, 4, false) => distOmaha4,
       (StrengthGame.omaha, 5, false) => distOmaha5,
       (StrengthGame.omaha, 6, false) => distOmaha6,
+      (StrengthGame.omaha, 7, false) => distOmaha7,
       (StrengthGame.omaha, 4, true) => distHiLo4,
       (StrengthGame.omaha, 5, true) => distHiLo5,
-      (StrengthGame.omaha, _, true) => distHiLo6,
+      (StrengthGame.omaha, 6, true) => distHiLo6,
+      (StrengthGame.omaha, _, true) => distHiLo7,
       (StrengthGame.omaha, _, _) => distOmaha6,
       _ => distPineapple,
     };
@@ -151,8 +192,8 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
     final t = Theme.of(context).textTheme;
     final c = context.colors;
     final n = size;
-    final w = n <= 3 ? 72.0 : (n == 4 ? 64.0 : 52.0);
-    final h = n <= 3 ? 100.0 : (n == 4 ? 88.0 : 72.0);
+    final w = n <= 3 ? 72.0 : (n == 4 ? 64.0 : (n == 7 ? 44.0 : 52.0));
+    final h = n <= 3 ? 100.0 : (n == 4 ? 88.0 : (n == 7 ? 60.0 : 72.0));
 
     String gameName(StrengthGame g) => switch (g) {
       StrengthGame.holdem => l.holdem,
@@ -190,7 +231,7 @@ class _HandStrengthScreenState extends ConsumerState<HandStrengthScreen> {
                           label: l.cardsLabel,
                           sheetTitle: l.cardsOnHand,
                           value: omahaCards,
-                          options: const [4, 5, 6],
+                          options: const [4, 5, 6, 7],
                           optionLabel: (v) => '$v',
                           onChanged: (v) => setState(() {
                             omahaCards = v;

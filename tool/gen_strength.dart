@@ -61,9 +61,33 @@ String classesDart(String name, List<(String, double)> t) =>
 String distDart(String name, List<double> d) =>
     'const $name = <double>[\n  ${d.map((e) => e.toStringAsFixed(4)).join(', ')}\n];\n';
 
-void main() {
+const _dists = [
+  ('distOmaha4', Rules(Variant.omaha, hole: 4), 1000, 2500),
+  ('distOmaha5', Rules(Variant.omaha, hole: 5), 1000, 2000),
+  ('distOmaha6', Rules(Variant.omaha, hole: 6), 1000, 1500),
+  ('distOmaha7', Rules(Variant.omaha, hole: 7), 1000, 1200),
+  ('distHiLo4', Rules(Variant.omahaHiLo, hole: 4), 1000, 2000),
+  ('distHiLo5', Rules(Variant.omahaHiLo, hole: 5), 1000, 1500),
+  ('distHiLo6', Rules(Variant.omahaHiLo, hole: 6), 1000, 1200),
+  ('distHiLo7', Rules(Variant.omahaHiLo, hole: 7), 1000, 1000),
+  ('distPineapple', Rules(Variant.pineapple, hole: 3), 1000, 8000),
+];
+
+/// Без аргументов — пересчитать всё. С именами (`distOmaha7 …`) —
+/// досчитать только их и дописать в конец файла.
+void main(List<String> args) {
   final sw = Stopwatch()..start();
   void log(String s) => stdout.writeln('${sw.elapsed.inSeconds}s $s');
+  if (args.isNotEmpty) {
+    final f = File('lib/features/strength/strength_tables.dart');
+    for (final (name, rules, hands, deals) in _dists) {
+      if (!args.contains(name)) continue;
+      f.writeAsStringSync(distDart(name, distribution(rules, hands, deals)),
+          mode: FileMode.append);
+      log(name);
+    }
+    return;
+  }
   final b = StringBuffer()
     ..writeln('// Сгенерировано tool/gen_strength.dart — не править вручную.')
     ..writeln('// Эквити стартовых рук против одной случайной руки.')
@@ -93,15 +117,7 @@ void main() {
     ),
   );
   log('short');
-  for (final (name, rules, hands, deals) in [
-    ('distOmaha4', const Rules(Variant.omaha, hole: 4), 1000, 2500),
-    ('distOmaha5', const Rules(Variant.omaha, hole: 5), 1000, 2000),
-    ('distOmaha6', const Rules(Variant.omaha, hole: 6), 1000, 1500),
-    ('distHiLo4', const Rules(Variant.omahaHiLo, hole: 4), 1000, 2000),
-    ('distHiLo5', const Rules(Variant.omahaHiLo, hole: 5), 1000, 1500),
-    ('distHiLo6', const Rules(Variant.omahaHiLo, hole: 6), 1000, 1200),
-    ('distPineapple', const Rules(Variant.pineapple, hole: 3), 1000, 8000),
-  ]) {
+  for (final (name, rules, hands, deals) in _dists) {
     b.write(distDart(name, distribution(rules, hands, deals)));
     log(name);
   }

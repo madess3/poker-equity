@@ -314,4 +314,213 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get catStraightFlush => 'Стрит-флеш';
+
+  @override
+  String get removePlayer => 'Убрать игрока';
+
+  @override
+  String get deckEmpty => 'Колода закончилась: добор невозможен';
+
+  @override
+  String get icmTitle => 'ICM · делёжка';
+
+  @override
+  String get icmStacks => 'Стеки';
+
+  @override
+  String icmChipsTotal(String n) {
+    return 'Всего фишек: $n';
+  }
+
+  @override
+  String get icmPrizes => 'Призовые';
+
+  @override
+  String icmPlace(int n) {
+    return '$n-е место';
+  }
+
+  @override
+  String icmFund(String n) {
+    return 'Фонд: $n';
+  }
+
+  @override
+  String get icmPrizeOrder => 'Призы должны идти по убыванию';
+
+  @override
+  String get icmLeave => 'Оставить победителю';
+
+  @override
+  String get icmFillAll => 'Заполните стеки всех игроков и призовые.';
+
+  @override
+  String get icmPlayer => 'Игрок';
+
+  @override
+  String get icmByChips => 'По фишкам';
+
+  @override
+  String get icmEqual => 'Поровну';
+
+  @override
+  String get icmOverFirst => 'больше первого приза';
+
+  @override
+  String icmReserved(String r) {
+    return 'Разыгрывается: $r';
+  }
+
+  @override
+  String get icmNote =>
+      'ICM считает всех игроков равными по силе и не учитывает блайнды и позицию.';
+
+  @override
+  String get menuChop => 'EV chop · Страховка';
+
+  @override
+  String get insuranceTab => 'Страховка';
+
+  @override
+  String get runoutsTab => 'Прокрутки';
+
+  @override
+  String get toHand => 'К раздаче';
+
+  @override
+  String get needTwoHands => 'Введите руки минимум двух игроков';
+
+  @override
+  String get modelLabel => 'Модель:';
+
+  @override
+  String get modelTitle => 'Модель';
+
+  @override
+  String get modelChop => 'EV chop';
+
+  @override
+  String get modelOuts => 'Страховка от аутов';
+
+  @override
+  String get allCardsOpen => 'Все карты открыты';
+
+  @override
+  String get feePct => 'Комиссия, %';
+
+  @override
+  String get chopSum => 'Сумма EV chop';
+
+  @override
+  String get fee => 'Комиссия';
+
+  @override
+  String get shareNoDeal => 'Доля без сделки';
+
+  @override
+  String chopCosts(String x) {
+    return 'EV chop стоит $x';
+  }
+
+  @override
+  String chopOfShare(String p) {
+    return '$p от вашей доли в банке';
+  }
+
+  @override
+  String get feeFromPot => 'Комиссия считается от банка';
+
+  @override
+  String get insTwoPlayers => 'Нужны ровно 2 игрока с известными руками.';
+
+  @override
+  String get insStreet => 'Страховка считается на флопе или тёрне.';
+
+  @override
+  String get insuredLabel => 'Страхуется:';
+
+  @override
+  String get streetLabel => 'Улица:';
+
+  @override
+  String get streetTitle => 'Улица';
+
+  @override
+  String get streetToRiver => 'до ривера';
+
+  @override
+  String get streetTurn => 'тёрн';
+
+  @override
+  String get insNoOuts => 'У соперника нет аутов — страховать нечего.';
+
+  @override
+  String get insStake => 'Сумма страховки';
+
+  @override
+  String get insOdds => 'Коэффициент выплаты';
+
+  @override
+  String get insOppOuts => 'Ауты соперника';
+
+  @override
+  String get insChance => 'Шанс аута';
+
+  @override
+  String get insFair => 'Честный коэфф.';
+
+  @override
+  String get insEv => 'EV страховки';
+
+  @override
+  String get insGood => 'Страховка выгодна';
+
+  @override
+  String get insBad => 'Страховка невыгодна';
+
+  @override
+  String insSub(String k, String f, String o) {
+    return 'дают $k при честных $f · переплата $o% взноса';
+  }
+
+  @override
+  String insFooter(String pay, String stake) {
+    return 'Попал аут — выплата $pay. Не попал — взнос $stake сгорает.';
+  }
+
+  @override
+  String get runNeedHands =>
+      'Прокрутки считаются, когда известны руки всех игроков.';
+
+  @override
+  String get runOnce => '1 раз';
+
+  @override
+  String get runTwice => '2 раза';
+
+  @override
+  String get runThrice => '3 раза';
+
+  @override
+  String get runAll => 'Забрать весь банк';
+
+  @override
+  String get runPart => 'Получить часть';
+
+  @override
+  String get runNone => 'Ничего';
+
+  @override
+  String get runMean => 'Средняя доля';
+
+  @override
+  String get runSd => 'Разброс';
+
+  @override
+  String get runNoCards =>
+      '«—» — карт в колоде не хватает на это число прогонов.';
+
+  @override
+  String get runNote =>
+      'Число прогонов не меняет среднюю долю, меняется только разброс.';
 }

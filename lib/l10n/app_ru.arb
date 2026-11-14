@@ -204,5 +204,133 @@
   "catFlush": "Флеш",
   "catFullHouse": "Фулл-хаус",
   "catQuads": "Каре",
-  "catStraightFlush": "Стрит-флеш"
+  "catStraightFlush": "Стрит-флеш",
+  "removePlayer": "Убрать игрока",
+  "deckEmpty": "Колода закончилась: добор невозможен",
+  "icmTitle": "ICM · делёжка",
+  "icmStacks": "Стеки",
+  "icmChipsTotal": "Всего фишек: {n}",
+  "@icmChipsTotal": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "icmPrizes": "Призовые",
+  "icmPlace": "{n}-е место",
+  "@icmPlace": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "icmFund": "Фонд: {n}",
+  "@icmFund": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "icmPrizeOrder": "Призы должны идти по убыванию",
+  "icmLeave": "Оставить победителю",
+  "icmFillAll": "Заполните стеки всех игроков и призовые.",
+  "icmPlayer": "Игрок",
+  "icmByChips": "По фишкам",
+  "icmEqual": "Поровну",
+  "icmOverFirst": "больше первого приза",
+  "icmReserved": "Разыгрывается: {r}",
+  "@icmReserved": {
+    "placeholders": {
+      "r": {
+        "type": "String"
+      }
+    }
+  },
+  "icmNote": "ICM считает всех игроков равными по силе и не учитывает блайнды и позицию.",
+  "menuChop": "EV chop · Страховка",
+  "insuranceTab": "Страховка",
+  "runoutsTab": "Прокрутки",
+  "toHand": "К раздаче",
+  "needTwoHands": "Введите руки минимум двух игроков",
+  "modelLabel": "Модель:",
+  "modelTitle": "Модель",
+  "modelChop": "EV chop",
+  "modelOuts": "Страховка от аутов",
+  "allCardsOpen": "Все карты открыты",
+  "feePct": "Комиссия, %",
+  "chopSum": "Сумма EV chop",
+  "fee": "Комиссия",
+  "shareNoDeal": "Доля без сделки",
+  "chopCosts": "EV chop стоит {x}",
+  "@chopCosts": {
+    "placeholders": {
+      "x": {
+        "type": "String"
+      }
+    }
+  },
+  "chopOfShare": "{p} от вашей доли в банке",
+  "@chopOfShare": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "feeFromPot": "Комиссия считается от банка",
+  "insTwoPlayers": "Нужны ровно 2 игрока с известными руками.",
+  "insStreet": "Страховка считается на флопе или тёрне.",
+  "insuredLabel": "Страхуется:",
+  "streetLabel": "Улица:",
+  "streetTitle": "Улица",
+  "streetToRiver": "до ривера",
+  "streetTurn": "тёрн",
+  "insNoOuts": "У соперника нет аутов — страховать нечего.",
+  "insStake": "Сумма страховки",
+  "insOdds": "Коэффициент выплаты",
+  "insOppOuts": "Ауты соперника",
+  "insChance": "Шанс аута",
+  "insFair": "Честный коэфф.",
+  "insEv": "EV страховки",
+  "insGood": "Страховка выгодна",
+  "insBad": "Страховка невыгодна",
+  "insSub": "дают {k} при честных {f} · переплата {o}% взноса",
+  "@insSub": {
+    "placeholders": {
+      "k": {
+        "type": "String"
+      },
+      "f": {
+        "type": "String"
+      },
+      "o": {
+        "type": "String"
+      }
+    }
+  },
+  "insFooter": "Попал аут — выплата {pay}. Не попал — взнос {stake} сгорает.",
+  "@insFooter": {
+    "placeholders": {
+      "pay": {
+        "type": "String"
+      },
+      "stake": {
+        "type": "String"
+      }
+    }
+  },
+  "runNeedHands": "Прокрутки считаются, когда известны руки всех игроков.",
+  "runOnce": "1 раз",
+  "runTwice": "2 раза",
+  "runThrice": "3 раза",
+  "runAll": "Забрать весь банк",
+  "runPart": "Получить часть",
+  "runNone": "Ничего",
+  "runMean": "Средняя доля",
+  "runSd": "Разброс",
+  "runNoCards": "«—» — карт в колоде не хватает на это число прогонов.",
+  "runNote": "Число прогонов не меняет среднюю долю, меняется только разброс."
 }

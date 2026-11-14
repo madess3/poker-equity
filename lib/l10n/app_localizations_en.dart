@@ -314,4 +314,211 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get catStraightFlush => 'Straight flush';
+
+  @override
+  String get removePlayer => 'Remove player';
+
+  @override
+  String get deckEmpty => 'Deck is empty: no more cards can be dealt';
+
+  @override
+  String get icmTitle => 'ICM · deal';
+
+  @override
+  String get icmStacks => 'Stacks';
+
+  @override
+  String icmChipsTotal(String n) {
+    return 'Total chips: $n';
+  }
+
+  @override
+  String get icmPrizes => 'Prizes';
+
+  @override
+  String icmPlace(int n) {
+    return 'Place $n';
+  }
+
+  @override
+  String icmFund(String n) {
+    return 'Prize pool: $n';
+  }
+
+  @override
+  String get icmPrizeOrder => 'Prizes must go in descending order';
+
+  @override
+  String get icmLeave => 'Leave for the winner';
+
+  @override
+  String get icmFillAll => 'Fill in every player\'s stack and the prizes.';
+
+  @override
+  String get icmPlayer => 'Player';
+
+  @override
+  String get icmByChips => 'Chip chop';
+
+  @override
+  String get icmEqual => 'Equal';
+
+  @override
+  String get icmOverFirst => 'more than first prize';
+
+  @override
+  String icmReserved(String r) {
+    return 'Played for: $r';
+  }
+
+  @override
+  String get icmNote =>
+      'ICM treats all players as equally skilled and ignores blinds and position.';
+
+  @override
+  String get menuChop => 'EV chop · Insurance';
+
+  @override
+  String get insuranceTab => 'Insurance';
+
+  @override
+  String get runoutsTab => 'Run it';
+
+  @override
+  String get toHand => 'Back to hand';
+
+  @override
+  String get needTwoHands => 'Enter hands of at least two players';
+
+  @override
+  String get modelLabel => 'Model:';
+
+  @override
+  String get modelTitle => 'Model';
+
+  @override
+  String get modelChop => 'EV chop';
+
+  @override
+  String get modelOuts => 'Outs insurance';
+
+  @override
+  String get allCardsOpen => 'All cards are dealt';
+
+  @override
+  String get feePct => 'Fee, %';
+
+  @override
+  String get chopSum => 'EV chop amount';
+
+  @override
+  String get fee => 'Fee';
+
+  @override
+  String get shareNoDeal => 'Share without deal';
+
+  @override
+  String chopCosts(String x) {
+    return 'EV chop costs $x';
+  }
+
+  @override
+  String chopOfShare(String p) {
+    return '$p of your pot share';
+  }
+
+  @override
+  String get feeFromPot => 'The fee is taken from the pot';
+
+  @override
+  String get insTwoPlayers => 'Exactly 2 players with known hands are needed.';
+
+  @override
+  String get insStreet => 'Insurance works on the flop or turn.';
+
+  @override
+  String get insuredLabel => 'Insured:';
+
+  @override
+  String get streetLabel => 'Street:';
+
+  @override
+  String get streetTitle => 'Street';
+
+  @override
+  String get streetToRiver => 'to the river';
+
+  @override
+  String get streetTurn => 'turn';
+
+  @override
+  String get insNoOuts => 'The opponent has no outs — nothing to insure.';
+
+  @override
+  String get insStake => 'Insurance stake';
+
+  @override
+  String get insOdds => 'Payout odds';
+
+  @override
+  String get insOppOuts => 'Opponent outs';
+
+  @override
+  String get insChance => 'Out chance';
+
+  @override
+  String get insFair => 'Fair odds';
+
+  @override
+  String get insEv => 'Insurance EV';
+
+  @override
+  String get insGood => 'Insurance is profitable';
+
+  @override
+  String get insBad => 'Insurance is unprofitable';
+
+  @override
+  String insSub(String k, String f, String o) {
+    return 'pays $k vs fair $f · overpay $o% of stake';
+  }
+
+  @override
+  String insFooter(String pay, String stake) {
+    return 'Out hits — payout $pay. Misses — stake $stake is lost.';
+  }
+
+  @override
+  String get runNeedHands => 'Run-it stats need every player\'s hand.';
+
+  @override
+  String get runOnce => 'Once';
+
+  @override
+  String get runTwice => 'Twice';
+
+  @override
+  String get runThrice => '3 times';
+
+  @override
+  String get runAll => 'Scoop the pot';
+
+  @override
+  String get runPart => 'Win a part';
+
+  @override
+  String get runNone => 'Nothing';
+
+  @override
+  String get runMean => 'Average share';
+
+  @override
+  String get runSd => 'Spread';
+
+  @override
+  String get runNoCards => '«—» — not enough cards for that many runs.';
+
+  @override
+  String get runNote =>
+      'The number of runs doesn\'t change the average share, only the spread.';
 }

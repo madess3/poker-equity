@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../core/table_store.dart';
+import '../core/widgets/suit_icon.dart';
 import '../features/games/game.dart';
 import '../l10n/app_localizations.dart';
 import 'settings.dart';
@@ -64,13 +66,10 @@ class AppDrawer extends ConsumerWidget {
                             color: theme.colorScheme.primary,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Text(
-                            '♠',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: theme.colorScheme.onPrimary,
-                            ),
+                          child: SuitIcon(
+                            suit: 0,
+                            size: 24,
+                            color: theme.colorScheme.onPrimary,
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -104,6 +103,13 @@ class AppDrawer extends ConsumerWidget {
                 padding: const EdgeInsets.all(8),
                 children: [
                   for (final g in Game.values) item(g.title(l), g.path),
+                  Divider(color: c.line, indent: 16, endIndent: 16),
+                  // Ярлык на «Анализ → Страховка» последней игровой вкладки.
+                  item(
+                    l.menuChop,
+                    '${ref.read(tableStoreProvider).getString(TableStore.lastGameKey) ?? Game.holdem.path}?open=insurance',
+                  ),
+                  item(l.icmTitle, '/icm'),
                   Divider(color: c.line, indent: 16, endIndent: 16),
                   item(l.settings, '/settings'),
                   item(l.about, '/about'),

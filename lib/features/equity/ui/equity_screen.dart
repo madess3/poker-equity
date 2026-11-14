@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../app/drawer.dart';
 import '../../../app/settings.dart';
 import '../../../app/theme.dart';
+import '../../../core/table_store.dart';
 import '../../../core/widgets/playing_card.dart';
 import '../../../core/widgets/select_button.dart';
 import '../../../l10n/app_localizations.dart';
@@ -44,7 +46,106 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
   bool busy = false;
   bool muckNeeded = false;
   Map<int, List<(int, double)>> pineOptions = {};
+  bool deckEmpty = false; // колода закончилась, мак не помогает
   int _gen = 0;
+  bool _openedFromMenu = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final store = ref.read(tableStoreProvider);
+    store.setString(TableStore.lastGameKey, game.path);
+    final snap = store.loadTable(game.name);
+    if (snap != null) {
+      if (game.handCards.contains(snap.handSize)) handSize = snap.handSize;
+      players = snap.players.clamp(2, game.maxPlayersFor(handSize));
+      doubleBoard = snap.doubleBoard;
+      rule = snap.rule == null ? null : ShortDeckRule.values[snap.rule!];
+      cards.addAll(snap.cards);
+      dead.addAll(snap.dead);
+      for (final e in snap.ranges.entries) {
+        ranges[e.key] = e.value.toSet();
+      }
+      discarded.addAll(snap.discarded);
+      mixed = snap.mixed;
+      showDead = dead.isNotEmpty;
+      final empty = slotOrder.where((k) => !cards.containsKey(k));
+      selected = empty.isEmpty ? null : empty.first;
+      keyboard = selected != null;
+      if (cards.isNotEmpty || ranges.isNotEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _recalc());
+      }
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Ярлык «EV chop · Страховка» из меню: сразу открыть анализ.
+    final open = GoRouterState.of(context).uri.queryParameters['open'];
+    if (open == 'insurance' && !_openedFromMenu) {
+      _openedFromMenu = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _openAnalysis(tab: AnalysisScreen.insuranceTab);
+      });
+    }
+  }
+
+  void _persist() => ref
+      .read(tableStoreProvider)
+      .saveTable(
+        game.name,
+        TableSnapshot(
+          handSize: handSize,
+          players: players,
+          doubleBoard: doubleBoard,
+          rule: rule?.index,
+          cards: {...cards},
+          dead: [...dead],
+          ranges: {for (final e in ranges.entries) e.key: e.value.toList()},
+          discarded: discarded.toList(),
+          mixed: mixed,
+        ),
+      );
+
+  /// Убрать конкретного игрока: следующие сдвигаются вверх, его карты — в колоду.
+  void _removePlayer(int p) {
+    if (players <= 2) return;
+    setState(() {
+      final newCards = <String, int>{};
+      for (final e in cards.entries) {
+        if (!e.key.startsWith('p')) {
+          newCards[e.key] = e.value;
+          continue;
+        }
+        final i = _playerOf(e.key);
+        if (i == p) continue;
+        final ni = i > p ? i - 1 : i;
+        newCards['p${ni}_${_slotOf(e.key)}'] = e.value;
+      }
+      cards
+        ..clear()
+        ..addAll(newCards);
+      final newRanges = {
+        for (final e in ranges.entries)
+          if (e.key != p) (e.key > p ? e.key - 1 : e.key): e.value,
+      };
+      ranges
+        ..clear()
+        ..addAll(newRanges);
+      final newDisc = {
+        for (final i in discarded)
+          if (i != p) (i > p ? i - 1 : i),
+      };
+      discarded
+        ..clear()
+        ..addAll(newDisc);
+      players--;
+      pineOptions = {};
+      _fixSelection();
+    });
+    _recalc();
+  }
 
   Game get game => widget.game;
   bool get isShort => game == Game.shortDeck;
@@ -146,8 +247,10 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
       keyboard = true;
       acc = null;
       muckNeeded = false;
+      deckEmpty = false;
       pineOptions = {};
     });
+    _persist();
   }
 
   void _setPlayers(int v) {
@@ -251,11 +354,30 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
   );
 
   Future<void> _recalc() async {
+    _persist();
     final gen = ++_gen;
     var req = _request();
     final anything = req.hands.any((h) => h.isNotEmpty) || ranges.isNotEmpty;
     final need = needsMuck(req);
+    // Помогает ли замешивание: после него в колоду возвращаются срезка и мак.
+    final canMix =
+        cardsNeeded(req) <= cardsAvailable(req.copyWith(dead: const []));
     if (!need && mixed) mixed = false;
+    if (anything && need && !canMix) {
+      // Колода закончилась и мака нет: считаем только по открытому борду.
+      final now = boardOf(0).length >= 3 && ranges.isEmpty
+          ? showdownNow(req)
+          : null;
+      setState(() {
+        acc = now;
+        busy = false;
+        muckNeeded = false;
+        deckEmpty = true;
+        pineOptions = {};
+      });
+      return;
+    }
+    deckEmpty = false;
     if (!anything || (need && !mixed)) {
       setState(() {
         acc = null;
@@ -338,8 +460,12 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
     final settings = ref.watch(settingsProvider);
     final effRule = rule ?? settings.shortDeckRule;
     final big = handSize <= 3;
-    final cw = handSize <= 3 ? 50.0 : (handSize == 4 ? 46.0 : 42.0);
-    final ch = handSize <= 3 ? 68.0 : (handSize == 4 ? 62.0 : 58.0);
+    final cw = handSize <= 3
+        ? 50.0
+        : (handSize == 4 ? 46.0 : (handSize == 7 ? 40.0 : 42.0));
+    final ch = handSize <= 3
+        ? 68.0
+        : (handSize == 4 ? 62.0 : (handSize == 7 ? 56.0 : 58.0));
 
     Widget slot(String key, double w, double h) => PlayingCardView(
       card: cards[key],
@@ -449,6 +575,14 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
                 ),
                 const SizedBox(height: 12),
                 for (var b = 0; b < boardCount; b++) boardRow(b),
+                if (deckEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      l.deckEmpty,
+                      style: TextStyle(fontSize: 13, color: c.warn),
+                    ),
+                  ),
                 if (muckNeeded)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -503,6 +637,7 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
                     stale: busy,
                     options: pineOptions[i],
                     onDiscard: (card) => _discard(i, card),
+                    onRemove: players > 2 ? () => _removePlayer(i) : null,
                   ),
                 Row(
                   children: [
@@ -525,7 +660,7 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
                         style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(48),
                         ),
-                        onPressed: a == null ? null : _openAnalysis,
+                        onPressed: a == null ? null : () => _openAnalysis(),
                         child: Text(l.analysis),
                       ),
                     ),
@@ -601,17 +736,14 @@ class _EquityScreenState extends ConsumerState<EquityScreen> {
     ),
   );
 
-  void _openAnalysis() {
-    final a = acc;
-    if (a == null) return;
+  void _openAnalysis({int tab = 0}) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => AnalysisScreen(
-          rules: rules,
-          hands: [for (var i = 0; i < players; i++) handOf(i)],
-          board: boardOf(0),
-          dead: [...dead],
-          acc: a,
+          request: _request().copyWith(dead: mixed ? const [] : null),
+          acc: acc,
+          doubleBoard: doubleBoard,
+          initialTab: tab,
         ),
       ),
     );
@@ -630,6 +762,7 @@ class _PlayerTile extends StatelessWidget {
     required this.stale,
     required this.options,
     required this.onDiscard,
+    required this.onRemove,
   });
 
   final String name;
@@ -642,6 +775,7 @@ class _PlayerTile extends StatelessWidget {
   final bool stale;
   final List<(int, double)>? options;
   final ValueChanged<int> onDiscard;
+  final VoidCallback? onRemove; // убрать этого игрока
 
   @override
   Widget build(BuildContext context) {
@@ -702,6 +836,14 @@ class _PlayerTile extends StatelessWidget {
           Expanded(child: Text(name, style: t.bodySmall)),
           if (onRange != null && rangeLabel == null)
             TextButton(onPressed: onRange, child: Text(l.range)),
+          if (onRemove != null)
+            IconButton(
+              tooltip: l.removePlayer,
+              visualDensity: VisualDensity.compact,
+              iconSize: 20,
+              onPressed: onRemove,
+              icon: Icon(Icons.close, color: c.muted),
+            ),
         ],
       ),
     );

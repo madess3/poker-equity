@@ -10,6 +10,14 @@ import 'l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
+  // Открыть последний экран и запоминать каждый переход.
+  const routeKey = 'lastRoute';
+  final last = prefs.getString(routeKey);
+  if (last != null && last.startsWith('/')) initialRoute = last;
+  appRouter.routerDelegate.addListener(() {
+    final uri = appRouter.routerDelegate.currentConfiguration.uri;
+    prefs.setString(routeKey, uri.path);
+  });
   runApp(
     ProviderScope(
       overrides: [prefsProvider.overrideWithValue(prefs)],
